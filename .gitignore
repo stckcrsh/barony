@@ -1,0 +1,7 @@
+/build
+/node_modules
+/dist
+/.sass-cache
+/*.log
+app/bower_components
+/.tscache

@@ -1,0 +1,17 @@
+<div class="row">
+      <div class="col-xs-8" >
+            <ul class="list-group"
+                  (keyup)="onKey($event)">
+                  <li *ngFor="#legislator of legislators"
+                        (click)="onSelect(legislator)"
+                        class="list-group-item"
+                        [class.active]="legislator === selectedLegislator" >
+                        <span class="h3">{{legislator.first_name}} {{legislator.last_name}} - </span>
+                        <span class="h4"> {{legislator.state}}</span>
+                  </li>
+            </ul>	
+      </div>
+      <div class="col-xs-4">
+            <legislator [legislator]="selectedLegislator"></legislator>
+      </div>
+</div>

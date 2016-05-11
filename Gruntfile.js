@@ -12,22 +12,9 @@ module.exports = function(grunt) {
   grunt.registerTask("default", ["build-watch"]);
 
   // Creates a runnable non minified application in the root build directory
-  grunt.registerTask('build', function() {
-    grunt.task.run([
-      //'clean:build',
-      'copy:build',
-      'sass',
-      'ts:build',
-      'injector'
-    ]);
-  });
+  grunt.registerTask('build', function() {});
 
-  grunt.registerTask('build-watch', function(){
-    grunt.task.run([
-      'build',
-      'watch'
-    ]);
-  });
+  grunt.registerTask('build-watch', function(){});
 
 
   grunt.initConfig(grunt.util._.extend(taskConfig, userConfig));

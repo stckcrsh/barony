@@ -1,0 +1,37 @@
+<html>
+
+<head>
+	<title>Angular 2 QuickStart</title>
+	<!-- vendor file injector, uses the basic node templating -->
+	<% _.each( vendor_files.js, function( scriptSrc ){ %>
+		<script src="<%= scriptSrc %>"></script>
+	<% }); %>
+	<!-- toolbox css injector will go here -->
+	<% _.each( ui_toolbox.css, function( scriptSrc ){ %>
+		<link rel="stylesheet" type="text/css" href="<%= scriptSrc %>">
+	<% }); %>
+	<!-- injector:js -->
+	<!-- endinjector -->
+	<!-- injector:css -->
+	<!-- endinjector -->
+	<!-- 2. Configure SystemJS -->
+	<script>
+		System.config({
+			packages: {
+				"src": {
+					format: 'register',
+					defaultExtension: 'js'
+				}
+			}
+		});
+		System.import('app/boot')
+			.then(null, console.error.bind(console));
+	</script>
+</head>
+<!-- 3. Display the application -->
+
+<body>
+	<tu-starter-app>Loading...</tu-starter-app>
+</body>
+
+</html>

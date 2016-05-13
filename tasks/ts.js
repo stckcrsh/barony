@@ -12,11 +12,11 @@ module.exports = function(grunt) {
     },
     build: {
       outDir: 'build/public/src',
-      src: ['app/src/**/*.ts']
+      src: ['src/app/**/*.ts']
     },
     dist: {
       out: 'dist/public/src/app.js',
-      src: ['app/src/**/*.ts'],
+      src: ['src/app/**/*.ts'],
       options: {
         fast: 'never'
       }

@@ -17,13 +17,21 @@ module.exports = function(grunt) {
 					nonull: true,
 					cwd: '<%= src_dir %>',
 					src: 'index.html',
-					dest: 'build/',
+					dest: '<%= build_dir %>',
 					filter: 'isFile',
 					expand: true
 				},
 				{ //Vendor files
 					nonull: true,
 					src: '<%= vendor_files.js %>',
+					dest: '<%= build_dir %>',
+					filter: 'isFile',
+					expand: true
+				},
+				{ // ANgular html templates
+					nonull: true,
+					cwd: '<%= src_dir %>',
+					src: '<%= app.html_all %>',
 					dest: '<%= build_dir %>',
 					filter: 'isFile',
 					expand: true

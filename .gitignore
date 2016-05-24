@@ -5,3 +5,5 @@
 /*.log
 src/bower_components
 /.tscache
+/typings
+tscommand*.txt

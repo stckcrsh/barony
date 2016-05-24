@@ -13,14 +13,17 @@ module.exports = function() {
 		bower_components: 'bower_components/',
 
 		// Source locations for JS, LESS, ASSETS
-		
+		app: {
+			dir: 'app/',
+			html_all: 'app/**/*.html',
+		},
+
 		vendor_files: {
 			js: [ // entries here cannot use ! for negativity since these are directly entered in the html
-				'node_modules/angular2/bundles/angular2-polyfills.js',
-				'node_modules/systemjs/dist/system.src.js',
-				'node_modules/rxjs/bundles/Rx.js',
-				'node_modules/angular2/bundles/angular2.dev.js',
-				'node_modules/angular2/bundles/http.dev.js'
+				'node_modules/es6-shim/es6-shim.min.js',
+				'node_modules/zone.js/dist/zone.js',
+				'node_modules/reflect-metadata/Reflect.js',
+				'node_modules/systemjs/dist/system.src.js'
 			]
 		},
 		ui_toolbox: {

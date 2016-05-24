@@ -10,21 +10,16 @@
 	<% _.each( ui_toolbox.css, function( scriptSrc ){ %>
 		<link rel="stylesheet" type="text/css" href="<%= scriptSrc %>">
 	<% }); %>
+
+	
 	<!-- injector:js -->
 	<!-- endinjector -->
 	<!-- injector:css -->
 	<!-- endinjector -->
 	<!-- 2. Configure SystemJS -->
+	<script src="systemjs.config.js"></script>
 	<script>
-		System.config({
-			packages: {
-				"src": {
-					format: 'register',
-					defaultExtension: 'js'
-				}
-			}
-		});
-		System.import('app/boot')
+		System.import('app')
 			.then(null, console.error.bind(console));
 	</script>
 </head>

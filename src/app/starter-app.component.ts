@@ -11,6 +11,6 @@ import { Header } from './tu-components/index';
 	directives: [Header]
 })
 
-export default class StarterApp{
+export class StarterApp{
 
 }

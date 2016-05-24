@@ -1,14 +1,7 @@
 module.exports = function(grunt) {
   grunt.config('ts', {
     options: {
-      target: 'ES5',
-      module: 'system',
-      moduleResolution: 'node',
-      sourceMap: true,
-      emitDecoratorMetadata: true,
-      experimentalDecorators: true,
-      removeComments: false,
-      noImplicitAny: false
+      tsconfig: true
     },
     build: {
       outDir: 'build/app',

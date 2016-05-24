@@ -3,5 +3,6 @@
 /dist
 /.sass-cache
 /*.log
-app/bower_components
+src/bower_components
 /.tscache
+/typings

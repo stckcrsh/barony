@@ -1,7 +1,8 @@
 module.exports = function(grunt) {
   grunt.config('ts', {
     options: {
-      tsconfig: true
+      tsconfig: true,
+      experimentalDecorators: true
     },
     build: {
       outDir: 'build/app',

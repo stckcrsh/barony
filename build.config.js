@@ -15,7 +15,9 @@ module.exports = function() {
 		// Source locations for JS, LESS, ASSETS
 		app: {
 			dir: 'app/',
-			html_all: 'app/**/*.html',
+			html_all: ['app/**/*.html'],
+			ts_all: ['app/**/*.ts']
+
 		},
 
 		vendor_files: {

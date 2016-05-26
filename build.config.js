@@ -17,16 +17,8 @@ module.exports = function() {
 			dir: 'app/',
 			html_all: ['app/**/*.html'],
 			ts_all: ['app/**/*.ts']
-
 		},
-
 		vendor_files: {
-			js: [ // entries here cannot use ! for negativity since these are directly entered in the html
-				'node_modules/es6-shim/es6-shim.min.js',
-				'node_modules/zone.js/dist/zone.js',
-				'node_modules/reflect-metadata/Reflect.js',
-				'node_modules/systemjs/dist/system.src.js'
-			]
 		},
 		ui_toolbox: {
 			all: '<%= bower_components %>/UICoE-Toolbox/dist/**/*',
@@ -34,6 +26,19 @@ module.exports = function() {
 				'bower_components/UICoE-Toolbox/dist/css/tu-bootstrap.min.css',
 				'bower_components/UICoE-Toolbox/dist/css/tu-main.min.css',
 				'bower_components/UICoE-Toolbox/dist/css/tu-mainGray.min.css'
+			]
+		},
+
+		angular: {
+			modules: [
+				'node_modules/@angular/**/*',
+				'node_modules/rxjs/**/*'
+			],
+			files: [ // entries here cannot use ! for negativity since these are directly entered in the html
+				'node_modules/es6-shim/es6-shim.min.js',
+				'node_modules/zone.js/dist/zone.js',
+				'node_modules/reflect-metadata/Reflect.js',
+				'node_modules/systemjs/dist/system.src.js'
 			]
 		}
 

@@ -36,7 +36,16 @@ Then run these commands from the command line substituting variables wrapped in 
 	cd {project_root}
 	npm install
 	bower install
+> If there are issues with self signed certs you will need to create a file named '.bowerrc' in your user directory.
+> The contents of that file should be
+> '{"strict-ssl": false}' 
+> \#lifeAtTU
+
 	typings install
+> If there are issues with self signed certs you will need to create a file names '.typingsrc' in your user directory.
+> The contents of the file should be
+> 'rejectUnauthorized=false'
+> \#lifeAtTU
 
 Now you should have all the required libraries downloaded and ready to go.
 

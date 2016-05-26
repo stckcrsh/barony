@@ -30,6 +30,7 @@ module.exports = function() {
 		},
 
 		angular: {
+			system_config: 'systemjs.config.js',
 			modules: [
 				'node_modules/@angular/**/*',
 				'node_modules/rxjs/**/*'

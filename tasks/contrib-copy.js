@@ -45,7 +45,16 @@ module.exports = function(grunt) {
 					// Return false if the file exists.
 					return !(grunt.file.exists(dest));
 				}
-			}, { // html templates
+			}, 
+			{ // system config
+				nonull: true,
+				cwd: '<%= src_dir %>',
+				src: '<%= angular.system_config %>',
+				dest: '<%= build_dir %>',
+				filter: 'isFile',
+				expand: true
+			},
+			{ // html templates
 				nonull: true,
 				cwd: '<%= src_dir %>',
 				src: '<%= app.html_all %>',

@@ -45,6 +45,27 @@ module.exports = function(grunt) {
 					// Return false if the file exists.
 					return !(grunt.file.exists(dest));
 				}
+			}, { // vendor files
+				nonull: true,
+				src: '<%= node_modules.files %>',
+				dest: '<%= build_dir %>',
+				expand: true,
+
+				//this will keep build times lower by not copying files node_modules that already exist
+				//If you want to copy these in just delete the original files
+				filter: function(filepath) {
+					// NPM load file path module. 
+					var path = require('path');
+
+					// Construct the destination file path using the config build path and the filepath
+					var dest = path.join(
+						grunt.config.data.build_dir,
+						filepath
+					);
+
+					// Return false if the file exists.
+					return !(grunt.file.exists(dest));
+				}
 			}, 
 			{ // system config
 				nonull: true,
@@ -53,8 +74,7 @@ module.exports = function(grunt) {
 				dest: '<%= build_dir %>',
 				filter: 'isFile',
 				expand: true
-			},
-			{ // html templates
+			}, { // html templates
 				nonull: true,
 				cwd: '<%= src_dir %>',
 				src: '<%= app.html_all %>',

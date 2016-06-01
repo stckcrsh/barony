@@ -4,7 +4,6 @@ module.exports = function(grunt) {
       experimentalDecorators: true
     },
     build: {
-    	
       tsconfig: true,
       outDir: 'build/app',
       src: ['typings/index.d.ts', 'src/app/**/*.ts']

@@ -1,10 +1,10 @@
 module.exports = function(grunt) {
   grunt.config('ts', {
     options: {
-      tsconfig: true,
       experimentalDecorators: true
     },
     build: {
+      tsconfig: true,
       outDir: 'build/app',
       src: ['typings/index.d.ts', 'src/app/**/*.ts']
     },

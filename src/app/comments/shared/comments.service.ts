@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 import { Comment } from './comment.model';
 
 const URL = 'http://jsonplaceholder.typicode.com';
-const COMMENTURL: string = '/comments';
+const COMMENTURL = '/comments';
 
 
 @Injectable()
@@ -21,7 +21,7 @@ export class CommentsService {
 	 * Gets all comments 
 	 * @return {Observable<Comment[]} returns an Observable that streams a list of comments
 	 */
-	getComments(): Observable < Comment[] > {
+	public getComments(): Observable < Comment[] > {
 		return this.http.get(URL + COMMENTURL)
 			.map(res => res.json());
 	}
@@ -31,8 +31,8 @@ export class CommentsService {
 	 * @param  {number}     postId The id of the post that these comments will come from
 	 * @return {Observable<Comment[]>}        returns an Observable that streams a list of comments
 	 */
-	getCommentsByPost(postId: number): Observable < Comment[] > {
-		var searchParams = new URLSearchParams();
+	public getCommentsByPost(postId: number): Observable < Comment[] > {
+		let searchParams = new URLSearchParams();
 
 		searchParams.set('postId', postId.toString());
 		return this.http.get(URL + COMMENTURL, { search: searchParams })
@@ -45,7 +45,7 @@ export class CommentsService {
 	 * @param  {Comment}    comment The comment that will be created
 	 * @return {Observable<Comment>}         returns an Observable that streams single comments
 	 */
-	createComment(postId: number, comment: Comment): Observable < Comment > {
+	public createComment(postId: number, comment: Comment): Observable < Comment > {
 		return this.http.post(URL + COMMENTURL, JSON.stringify(comment))
 			.map(res => {
 				let newComment = res.json();

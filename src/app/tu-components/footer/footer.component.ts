@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
 	selector: 'tu-footer',
 	templateUrl: 'app/tu-components/footer/footer.html'
 })
-export class Footer {
-	
-}
+export class Footer {}

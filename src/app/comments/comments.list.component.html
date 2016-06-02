@@ -1,6 +1,6 @@
 <h1>Comments List</h1>
 <ul>
-	<li *ngFor="#comment of comments | async">
+	<li *ngFor="#comment of comments$ | async">
 		<h5>{{comment.name}}</h5>
 		<p>{{comment.body}}</p>
 		<small>{{comment.email}}</small>

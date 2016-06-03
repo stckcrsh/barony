@@ -1,18 +1,22 @@
 import { Component } from '@angular/core';
 
 import { Header, Footer } from './tu-components/index';
-import { CommentsList } from './comments/index';
+import { UserListComponent,UserCreateComponent,  UserSmallDetailComponent} from './users/index';
+import { HTTP_PROVIDERS } from '@angular/http'
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 @Component({
 	template: `
 	<tu-header></tu-header>
-	<sa-comments-list post-id="1"></sa-comments-list>
+	<user-small-detail [user-id]="id"></user-small-detail>
 	<tu-footer></tu-footer>
 	`,
 	selector: 'tu-starter-app',
-	directives: [Header, Footer, CommentsList]
+	directives: [Header, Footer, UserListComponent,UserCreateComponent, UserSmallDetailComponent],
+	providers: [HTTP_PROVIDERS]
 })
 
 export class StarterApp{
+
 
 }

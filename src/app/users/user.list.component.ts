@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService,User } from './shared/index';
+import { UserSmallDetailComponent } from './index';
+
 
 
 @Component({
 	selector:'user-list',
-	templateUrl:'app/users/shared/display.user.component.html',
+	templateUrl: 'app/users/user.display.component.html',
 	providers:[UserService]
 })
 
 export class UserListComponent implements OnInit{
-	
+		
+
   errorMessage: string;
   private users:User[];
-  userUrl = 'http://jsonplaceholder.typicode.com/users';
 
 	constructor (private userService: UserService) {
 		
-	}
-
-	
+	}	
   
     ngOnInit() { 
     	this.userService.getUsers()
@@ -26,6 +26,12 @@ export class UserListComponent implements OnInit{
 				users => this.users = users,
 				error => console.log(error));
     }
+
+   /* selectUser(user:User) {
+		this.router.navigate(['user', { id: user.id }]);
+    }*/
+
+
 
   
 }

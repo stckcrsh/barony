@@ -20,7 +20,7 @@
     'angular2-in-memory-web-api': { defaultExtension: 'js' },
   };
 
-  var ngPackageNames = [
+  var ngPackageNames = [  
     'common',
     'compiler',
     'core',
@@ -28,6 +28,7 @@
     'platform-browser',
     'platform-browser-dynamic',
     'router',
+    'testing',
     'router-deprecated',
     'upgrade',
   ];

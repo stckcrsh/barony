@@ -3,7 +3,16 @@ export class User {
 	name: string;
 	username:string;
 	email:string;
-	address:string;
+	address:{
+		street:string;
+		city:string;
+		suite:string;
+		zipcode:number;
+		geo:{
+			lat:number;
+			lng:number;
+		}
+	}
 	phone:number;
 	website:string;
 	company:{

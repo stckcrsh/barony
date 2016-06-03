@@ -1,11 +1,17 @@
 <html>
 
 <head>
-	<title>Angular 2 QuickStart</title>
-	<!-- vendor file injector, uses the basic node templating -->
+	<title>TU Angular2 Starter App</title>
+	<!-- Angular specific files -->
 	<% _.each(angular.files, function( scriptSrc ){ %>
 		<script src="<%= scriptSrc %>"></script>
 	<% }); %>
+
+	<!-- vendor file injector, uses the basic node templating -->
+	<% _.each(node_modules.files, function( scriptSrc ){ %>
+		<script src="<%= scriptSrc %>"></script>
+	<% }); %>
+
 	<!-- toolbox css injector will go here -->
 	<% _.each( ui_toolbox.css, function( scriptSrc ){ %>
 		<link rel="stylesheet" type="text/css" href="<%= scriptSrc %>">

@@ -8,11 +8,12 @@ import { CommentsList } from './comments/index';
 	selector: 'tu-starter-app',
 	template: `
 	<tu-header></tu-header>
-	<sa-comments-list post-id="1"></sa-comments-list>
+	<sa-comments-list></sa-comments-list>
 	<tu-footer></tu-footer>
 	`
 })
 
 export class StarterApp {
+
 
 }

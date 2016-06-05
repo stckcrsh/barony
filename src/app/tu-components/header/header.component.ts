@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
 	selector: 'tu-header',
 	templateUrl: 'app/tu-components/header/header.html'
 })
-export class Header {
-	
-}
+export class Header {}

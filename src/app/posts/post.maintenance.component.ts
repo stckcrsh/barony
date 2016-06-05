@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/common';
+import { Component } from '@angular/core';
 import { RouteParams } from '@angular/router-deprecated';
 
 import { Post } from './shared/post.model';
@@ -7,27 +6,23 @@ import { PostService } from './shared/post.service';
 
 
 @Component({
-	selector:'post-edit',
-	templateUrl:'app/posts/post.form.component.html',
-	providers:[PostService]
+	providers: [PostService],
+	selector: 'post-edit',
+	templateUrl: 'app/posts/post.form.component.html'
 })
 
-export class PostMaintenanceComponent implements OnInit {
-	
+export class PostMaintenanceComponent {
+
 	private post: Post;
 
-	constructor(public routerParam : RouteParams, public postService: PostService) {}
-		
-	ngOnInit() {
-		
-	}
+	constructor(public routerParam: RouteParams, public postService: PostService) {}
 
 	get diagnostic() {
-		return JSON.stringify(this.post)
+		return JSON.stringify(this.post);
 	}
 
-	onSubmit() {
-         this.postService.add(this.post).subscribe(post => this.post = post);
-         console.log(this.post);
+	public onSubmit() {
+		this.postService.add(this.post).subscribe(post => this.post = post);
+		console.log(this.post);
 	}
 }

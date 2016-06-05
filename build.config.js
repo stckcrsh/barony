@@ -16,7 +16,7 @@ module.exports = function() {
 		app: {
 			dir: 'app/',
 			html_all: ['app/**/*.html'],
-			ts_all: ['app/**/*.ts']
+			ts_all: 'app/**/*.ts'
 		},
 
 		// location for all dependant node_modules

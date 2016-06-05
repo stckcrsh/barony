@@ -5,30 +5,29 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import { Comment } from './comment.model';
-
 import { AppStore } from '../../core/store';
 import { GET_COMMENTS, CREATE_COMMENT} from './comments.actions';
 
 const BASEURL = 'http://jsonplaceholder.typicode.com';
-const COMMENTURL: string = '/comments';
+const COMMENTURL = '/comments';
 
 
 @Injectable()
 export class CommentsService {
-	comments$: Observable < Array < Comment > >;
+	public comments$: Observable < Comment[] >;
 
 	private http: Http;
 
 	constructor(http: Http, private store: Store<AppStore>) {
 		this.http = http;
-		this.comments$ = store.select('comments');
+		this.comments$ = <Observable<Comment[]>>store.select('comments');
 	}
 
 	/**
 	 * Gets all comments 
 	 * @return {Observable<Comment[]>} returns an Observable that streams a list of comments
 	 */
-	getComments() {
+	public getComments() {
 		return this.http.get(`${BASEURL}${COMMENTURL}`)
 			.map(res => res.json())
 			.map(payload => ({ type: GET_COMMENTS, payload }))
@@ -40,9 +39,8 @@ export class CommentsService {
 	 * @param  {number}     postId The id of the post that these comments will come from
 	 * @return {Observable<Comment[]>}        returns an Observable that streams a list of comments
 	 */
-	getCommentsByPost(postId: number) {
-		var searchParams = new URLSearchParams();
-
+	public getCommentsByPost(postId: number) {
+		let searchParams = new URLSearchParams();
 		searchParams.set('postId', postId.toString());
 		return this.http.get(`${BASEURL}${COMMENTURL}`, { search: searchParams })
 			.map(res => res.json() || {})
@@ -56,7 +54,7 @@ export class CommentsService {
 	 * @param  {Comment}    comment The comment that will be created
 	 * @return {Observable<Comment>}         returns an Observable that streams single comments
 	 */
-	createComment(postId: number, comment: Comment) {
+	public createComment(postId: number, comment: Comment) {
 		let result$ = this.http.post(`${BASEURL}${COMMENTURL}`, JSON.stringify(comment))
 		.map(res => {
 			let newComment = res.json();

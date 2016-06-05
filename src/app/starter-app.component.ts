@@ -1,20 +1,19 @@
 import { Component } from '@angular/core';
 
 import { Header, Footer } from './tu-components/index';
-import { HTTP_PROVIDERS } from '@angular/http'
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import { CommentsList } from './comments/index';
 
 @Component({
+	directives: [Header, Footer, CommentsList],
+	selector: 'tu-starter-app',
 	template: `
 	<tu-header></tu-header>
+	<sa-comments-list></sa-comments-list>
 	<tu-footer></tu-footer>
-	`,
-	selector: 'tu-starter-app',
-	directives: [Header, Footer],
-	providers: [HTTP_PROVIDERS]
+	`
 })
 
-export class StarterApp{
+export class StarterApp {
 
 
 }

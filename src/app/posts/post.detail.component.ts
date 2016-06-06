@@ -30,10 +30,10 @@ export class PostDetailComponent implements OnInit {
 		return JSON.stringify(this.post);
 	}
 
-	onSubmit() {
-         this.postService.update(this.post).subscribe(post => this.post = post);
-         this.changed = false;
-         this.submitted = true
+	public onSubmit() {
+		this.postService.update(this.post).subscribe(post => this.post = post);
+		this.changed = false;
+		this.submitted = true;
 	}
 
 	public onEdit() {
@@ -41,7 +41,7 @@ export class PostDetailComponent implements OnInit {
 		this.submitted = false;
 	}
 
-	goBack() {
+	public goBack() {
 		window.history.back();
 	}
 }

@@ -23,7 +23,7 @@ export class CommentsContainer implements OnInit {
 	 * Runs after the component has been initialized. Gets all the comments attached to a post
 	 */
 	public ngOnInit() {
-		this.comments$ = this.commentsService.comments$.map(res => res.filter(comment => comment.postId === parseInt(this.postId, 10)));
+		this.comments$ = this.commentsService.comments$.map(res => res.filter(comment => comment.postId === this.postId));
 
 		this.commentsService.getComments();
 	}

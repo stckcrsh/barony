@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { Post } from './posts/shared'
-import { PostListComponent } from './posts/post.list.component'
-import { PostDetailComponent } from './posts/post.detail.component'
-import { PostCreateComponent } from './posts/post.create.component'
+import { Post } from './posts/shared';
+import { PostListComponent } from './posts/post.list.component';
+import { PostDetailComponent } from './posts/post.detail.component';
+import { PostCreateComponent } from './posts/post.create.component';
 import { Header, Footer } from './tu-components/index';
 
-import { HTTP_PROVIDERS } from '@angular/http'
+import { HTTP_PROVIDERS } from '@angular/http';
 import {ROUTER_DIRECTIVES, RouteConfig, ROUTER_PROVIDERS} from '@angular/router-deprecated';
 
  

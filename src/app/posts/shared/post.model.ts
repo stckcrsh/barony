@@ -1,38 +1,37 @@
-
 export class Post {
-	public userId:number;
+	public userId: number;
 	public id: number;
-	public title:string;
-	public body:string
-    
-    get UserId() {
-    	return this.userId;
-    }
+	public title: string;
+	public body: string;
 
-    set UserId(userId: number) {
-    	this.userId = userId
-    }
+	get UserId() {
+		return this.userId;
+	}
 
-    get Id() {
-    	return this.id;
-    }
+	set UserId(userId: number) {
+		this.userId = userId;
+	}
 
-    set Id(id: number) {
-    	this.id = id
-    }
+	get Id() {
+		return this.id;
+	}
 
-    get Title() {
-    	return this.title;
-    }
+	set Id(id: number) {
+		this.id = id;
+	}
 
-    set Title(title: string) {
-    	this.title = title;
-    }
-    get Body() {
-    	return this.body;
-    }
+	get Title() {
+		return this.title;
+	}
 
-    set Body(body: string) {
-    	this.body = body;
-    }
+	set Title(title: string) {
+		this.title = title;
+	}
+	get Body() {
+		return this.body;
+	}
+
+	set Body(body: string) {
+		this.body = body;
+	}
 }

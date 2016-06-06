@@ -7,6 +7,7 @@ import { Router } from '@angular/router-deprecated';
 @Component({
 	selector:'post-list',
 	template:`
+	 <button type="button" (click)="createPost()" class="btn btn-default" >Create Post</button>
      <table class="table table-condensed">
 	    <thead>
 	      <tr>
@@ -43,7 +44,11 @@ export class PostListComponent implements OnInit {
    }
 
    selectPost(post:Post) {
-   	   this.router.navigate(['post', {id:post.id}])
+   	   this.router.navigate(['PostDetail', {id:post.id}])
+    }
+
+    createPost() {
+    	this.router.navigate(['CreateNewPost']);
     }
 	
 }

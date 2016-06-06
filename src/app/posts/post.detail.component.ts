@@ -29,14 +29,18 @@ export class PostDetailComponent implements OnInit {
 		return JSON.stringify(this.post);
 	}
 
-	public onSubmit() {
-		this.postService.add(this.post).subscribe(post => this.post = post);
-		this.changed = false;
-		this.submitted = true;
+	onSubmit() {
+         this.postService.update(this.post).subscribe(post => this.post = post);
+         this.changed = false;
+         this.submitted = true
 	}
 
 	public onEdit() {
 		this.changed = true;
 		this.submitted = false;
+	}
+
+	goBack() {
+		window.history.back();
 	}
 }

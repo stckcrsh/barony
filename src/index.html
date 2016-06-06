@@ -1,8 +1,11 @@
 <html>
 
 <head>
+
 	<title>TU Angular2 Starter App</title>
+	<base href="/">
 	<!-- Angular specific files -->
+
 	<% _.each(angular.files, function( scriptSrc ){ %>
 		<script src="<%= scriptSrc %>"></script>
 	<% }); %>
@@ -32,7 +35,7 @@
 <!-- 3. Display the application -->
 
 <body>
-	<tu-starter-app>Loading...</tu-starter-app>
+	<tu-app>Loading...</tu-app>
 </body>
 
 </html>

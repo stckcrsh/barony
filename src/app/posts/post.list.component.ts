@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Post } from './shared';
-import { PostService } from './shared/post.service';
-import { Router } from '@angular/router-deprecated';
-
+import { Post, PostService } from './shared/index';
 @Component({
 	providers: [PostService],
 	selector: 'post-list',
@@ -33,7 +30,7 @@ export class PostListComponent implements OnInit {
 
 	public posts: Post[];
 
-	constructor(private postService: PostService, private router: Router) {}
+	constructor(private postService: PostService) {}
 
 	public ngOnInit() {
 		this.postService.getAll().subscribe(tempPosts => this.posts = tempPosts);
@@ -41,7 +38,6 @@ export class PostListComponent implements OnInit {
 	}
 
 	public selectPost(post: Post) {
-		this.router.navigate(['post', { id: post.id }]);
 	}
 
 }

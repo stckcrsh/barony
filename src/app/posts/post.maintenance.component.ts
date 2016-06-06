@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { RouteParams } from '@angular/router-deprecated';
 
-import { Post } from './shared/post.model';
-import { PostService } from './shared/post.service';
+import { Post, PostService } from './shared/index';
 
 
 @Component({

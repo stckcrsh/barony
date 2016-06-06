@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 
 import { Header, Footer } from './tu-components/index';
-import { CommentsList } from './comments/index';
+import { PostListComponent } from './posts/index';
 
 @Component({
-	directives: [Header, Footer, CommentsList],
+	directives: [Header, Footer, PostListComponent],
 	selector: 'tu-starter-app',
 	template: `
 	<tu-header></tu-header>
-	<sa-comments-list></sa-comments-list>
+	<post-list></post-list>
 	<tu-footer></tu-footer>
 	`
 })

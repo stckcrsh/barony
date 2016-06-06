@@ -6,11 +6,18 @@
     <form (ngSubmit)="onSubmit()" #postForm="ngForm">
       <div class="form-group">
         <label for="name">ID</label>
-        <input type="text" [(ngModel)]="post.id" [disabled]="!changed" class="form-control" ngControl="id" #id > {{id.valid}}
+        <input type="text" [(ngModel)]="post.id" [disabled]="!changed" class="form-control" ngControl="id" #postID="ngForm" required> 
+        <div [hidden]="postID.valid || postID.pristine" class="alert alert-danger">
+          ID cannot be blank
+        </div>
       </div>
       <div class="form-group">
         <label for="alterEgo">User ID</label>
-        <input type="text" [(ngModel)]="post.userId" [disabled]="!changed" ngControl="userId" class="form-control" >
+        <input type="text" [(ngModel)]="post.userId" [disabled]="!changed" ngControl="userId" class="form-control" required #postUserId="ngForm">
+        <div [hidden]="postUserId.valid || postUserId.pristine" class="alert alert-danger">
+          User ID cannot be blank
+        </div>
+
       </div>
       <div class="form-group">
         <label for="alterEgo">Title</label>
@@ -20,10 +27,12 @@
         <label for="alterEgo">Body</label>
         <input type="text" [(ngModel)]="post.body" [disabled]="!changed" ngControl="body" class="form-control" >
       </div>
-      
-       <div *ngIf="changed"> <button type="submit" class="btn btn-default" >Save</button> </div>
+      <div class="form-group">
+       <div *ngIf="changed"> <button type="submit" class="btn btn-default" [disabled]="!postForm.form.valid" >Save</button> </div>
        <div *ngIf="!changed">  <button type="button" (click)="onEdit()" class="btn btn-default" >Edit</button></div>
-      
+       <div><button type="button" (click)="goBack()" class="btn btn-default" >Back</button></div>
+      </div>
+      <button type="button" class="btn btn-link">View Comments</button>
     </form>
 
 </div>

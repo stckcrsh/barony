@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/Rx';
 
-import { Post } from './post.model'
-
+import { Post } from './post.model';
 @Injectable()
 export class PostService {
 
@@ -65,5 +65,4 @@ export class PostService {
     	return Observable.throw(errorMsg);
     
     }
-
 }

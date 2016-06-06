@@ -1,3 +1,4 @@
+
 export class Post {
 	public userId:number;
 	public id: number;
@@ -34,5 +35,4 @@ export class Post {
     set Body(body: string) {
     	this.body = body;
     }
-
 }

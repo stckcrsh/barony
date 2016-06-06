@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Post  } from './shared';
+import { Post } from './shared';
 import { PostService } from './shared/post.service';
 import { Router } from '@angular/router-deprecated';
 
 @Component({
+
+	providers: [PostService],
 	selector:'post-list',
 	template:`
 	 <button type="button" (click)="createPost()" class="btn btn-default" >Create Post</button>
@@ -28,26 +30,26 @@ import { Router } from '@angular/router-deprecated';
 
 	  </table>
    
-	`,
-	providers:[PostService]
+	`
 })
 
 export class PostListComponent implements OnInit {
 
-   posts: Post[];
+	public posts: Post[];
 
-   constructor(private postService: PostService, private router: Router) {}
+	constructor(private postService: PostService, private router: Router) {}
 
-   ngOnInit() {
-      this.postService.getAll().subscribe(tempPosts => this.posts = tempPosts);
+	public ngOnInit() {
+		this.postService.getAll().subscribe(tempPosts => this.posts = tempPosts);
 
-   }
+	}
 
-   selectPost(post:Post) {
-   	   this.router.navigate(['PostDetail', {id:post.id}])
-    }
+	public selectPost(post: Post) {
+		this.router.navigate(['PostDetail', { id: post.id }]);
+	}
 
-    createPost() {
+
+    public createPost() {
     	this.router.navigate(['CreateNewPost']);
     }
 	

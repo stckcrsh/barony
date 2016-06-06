@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/common';
 import { RouteParams } from '@angular/router-deprecated';
 
 import { Post } from './shared/post.model';
@@ -7,31 +6,28 @@ import { PostService } from './shared/post.service';
 
 
 @Component({
-	selector:'post-detail',
-	templateUrl:'app/posts/post.form.component.html',
-	providers:[PostService]
-	
+	providers: [PostService],
+	selector: 'post-detail',
+	templateUrl: 'app/posts/post.form.component.html'
 })
 
-export class PostDetailComponent implements OnInit{
-	
+export class PostDetailComponent implements OnInit {
+
 	private post: Post;
 
 	private changed: boolean = false;
 
-	private submitted:boolean = false;
+	private submitted: boolean = false;
 
-	private successMsg:string="Success";
+	constructor(public routerParam: RouteParams, public postService: PostService) {}
 
-	constructor(public routerParam : RouteParams, public postService: PostService) {}
-	
-	ngOnInit() {
+	public ngOnInit() {
 		let id = +this.routerParam.get('id');
 		this.postService.getByID(id).subscribe(post => this.post = post);
 	}
 
 	get diagnostic() {
-		return JSON.stringify(this.post)
+		return JSON.stringify(this.post);
 	}
 
 	onSubmit() {
@@ -40,7 +36,7 @@ export class PostDetailComponent implements OnInit{
          this.submitted = true
 	}
 
-	onEdit() {
+	public onEdit() {
 		this.changed = true;
 		this.submitted = false;
 	}

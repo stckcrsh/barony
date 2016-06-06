@@ -1,27 +1,43 @@
 import { Component, Input } from '@angular/core';
-import { NgForm } from '@angular/common';
 
 import { CommentsService, Comment } from './shared/index';
 
 @Component({
+	providers: [CommentsService],
 	selector: 'sa-comment-create',
-	templateUrl: 'app/comments/comments.create.component.html',
-	providers: [CommentsService]
+	templateUrl: 'app/comments/comments.create.component.html'
 })
 export class CreateComment {
-	@Input('post-id') postId: number;
+	@Input('post-id')
+	public postId: number;
 
-	public comment: Comment = new Comment;
-	public submitted: boolean = false;
+	public comment: Comment = new Comment();
+	public active: boolean = true;
 
-	constructor(private commentsService: CommentsService){}
+	constructor(private commentsService: CommentsService) {}
 
 	public onSubmit() {
-		this.commentsService.createComment(this.postId, this.comment).
-			subscribe(
-				comment => {
-					this.submitted = true;
+		// set the active flag to false (loading...)
+		this.active = false;
+		this.commentsService.createComment(this.postId, this.comment)
+			.subscribe(
+				// on next
+				() => {},
+
+				// on error
+				error => {
+					console.log(error);
 				},
-				error => console.log(error));
+
+				// on complete
+				() => {
+					this.resetForm();
+				});
+	}
+
+	private resetForm() {
+		console.log('reset');
+		this.comment = new Comment();
+		this.active = true;
 	}
 }

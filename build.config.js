@@ -16,10 +16,16 @@ module.exports = function() {
 		app: {
 			dir: 'app/',
 			html_all: ['app/**/*.html'],
-			ts_all: ['app/**/*.ts']
+			ts_all: 'app/**/*.ts'
 		},
-		vendor_files: {
+
+		// location for all dependant node_modules
+		node_modules: {
+			files: [
+			]
 		},
+
+		// UI Toolbox bower components 
 		ui_toolbox: {
 			all: '<%= bower_components %>/UICoE-Toolbox/dist/**/*',
 			css: [
@@ -29,11 +35,13 @@ module.exports = function() {
 			]
 		},
 
+		// Angular dependencies
 		angular: {
 			system_config: 'systemjs.config.js',
 			modules: [
 				'node_modules/@angular/**/*',
-				'node_modules/rxjs/**/*'
+				'node_modules/rxjs/**/*',
+				'node_modules/@ngrx/**/*'
 			],
 			files: [ // entries here cannot use ! for negativity since these are directly entered in the html
 				'node_modules/es6-shim/es6-shim.min.js',
@@ -42,8 +50,6 @@ module.exports = function() {
 				'node_modules/systemjs/dist/system.src.js'
 			]
 		}
-
-
 	};
 
 

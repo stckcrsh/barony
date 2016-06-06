@@ -19,13 +19,13 @@ import { Router } from '@angular/router-deprecated';
 	    </thead>
 	    <tbody>
 	      <tr *ngFor="let post of posts">
-	        <td><span (click)="selectPost(post)">{{post.id}}</span></td>
+	        <td><button type="button" (click)="selectPost(post)" class="btn btn-link">{{post.id}}</button></td>
 	        <td>{{post.userId}}</td>
 	        <td>{{post.title}}</td>
 	        <td>{{post.body}}</td>
 	      </tr>
-	      
 	    </tbody>
+
 	  </table>
    
 	`,

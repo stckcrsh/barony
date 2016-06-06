@@ -3,6 +3,7 @@
 <head>
 	<title>Angular 2 QuickStart</title>
 	<!-- vendor file injector, uses the basic node templating -->
+	<base href="/">
 	<% _.each(angular.files, function( scriptSrc ){ %>
 		<script src="<%= scriptSrc %>"></script>
 	<% }); %>
@@ -26,7 +27,7 @@
 <!-- 3. Display the application -->
 
 <body>
-	<tu-starter-app>Loading...</tu-starter-app>
+	<tu-app>Loading...</tu-app>
 </body>
 
 </html>

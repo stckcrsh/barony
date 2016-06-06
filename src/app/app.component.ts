@@ -3,6 +3,7 @@ import { Post } from './posts/shared'
 import { PostListComponent } from './posts/post.list.component'
 import { PostDetailComponent } from './posts/post.detail.component'
 import { PostCreateComponent } from './posts/post.create.component'
+import { Header, Footer } from './tu-components/index';
 
 import { HTTP_PROVIDERS } from '@angular/http'
 import {ROUTER_DIRECTIVES, RouteConfig, ROUTER_PROVIDERS} from '@angular/router-deprecated';
@@ -16,7 +17,7 @@ import {ROUTER_DIRECTIVES, RouteConfig, ROUTER_PROVIDERS} from '@angular/router-
 	   <router-outlet></router-outlet>
 	<tu-footer></tu-footer>
 	`,
-	directives: [ROUTER_DIRECTIVES],
+	directives: [ROUTER_DIRECTIVES, Header, Footer],
 	providers:[HTTP_PROVIDERS, ROUTER_PROVIDERS]
 
 })

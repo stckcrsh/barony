@@ -10,13 +10,15 @@ module.exports = function() {
 		build_dir: 'build/',
 		build_public: '<%= build_dir %>public/',
 		src_dir: 'src/',
+		dist_dir: 'dist/',
 		bower_components: 'bower_components/',
 
 		// Source locations for JS, LESS, ASSETS
 		app: {
 			dir: 'app/',
 			html_all: ['app/**/*.html'],
-			ts_all: 'app/**/*.ts'
+			ts_all: 'app/**/*.ts',
+			sass_all: 'app/**/*.scss'
 		},
 
 		// location for all dependant node_modules

@@ -25,15 +25,10 @@ export class UserSmallDetailComponent implements OnInit  {
     }
 
     
-    editUserDetails(user:User[],event:any){
+    editUserDetails(user:User[]){
     	if (this.isEditable) {
-    		if(event.target.nodeName =="INPUT"){
-    		 	this.isEditable = true;
-    		}
-    		else{
-    		 	this.isEditable = false;
+    			this.isEditable = false;
     		 	this.saveUserDetails(user);	
-    		}   		 
     		
     	}
     	else{    		
@@ -42,8 +37,7 @@ export class UserSmallDetailComponent implements OnInit  {
     }
     
     inputFocused(event:any){
-    	event.preventDefault();
-
+		event.stopPropagation();
     }
 
     saveUserDetails(user:User[]){

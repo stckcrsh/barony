@@ -9,24 +9,24 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		    <tr (click)="editUserDetails(user,$event)" >
+		    <tr (click)="editUserDetails(user)" >
 		      <td>
 		      	<div *ngIf="!isEditable">{{user.name}}</div>
-		      	<div *ngIf="isEditable"><input (focus)="inputFocused($event)"  type="text" value="{{user.name}}"/></div>
+		      	<div *ngIf="isEditable"><input (click)="inputFocused($event)"  type="text" value="{{user.name}}"/></div>
 		      </td>
 		      <td>
 		      	<div *ngIf="!isEditable">{{user.username}}</div>
-		      	<div *ngIf="isEditable"><input (focus)="inputFocused($event)" type="text" value="{{user.username}}"/></div>
+		      	<div *ngIf="isEditable"><input (click)="inputFocused($event)" type="text" value="{{user.username}}"/></div>
 		      </td>
 		      <td>
 		      	<div *ngIf="!isEditable">{{user.email}}</div>
 		      	<div *ngIf="isEditable">
-		      		<input  type="text" (focus)="inputFocused($event)" value="{{user.email}}"/>
+		      		<input  type="text" (click)="inputFocused($event)" value="{{user.email}}"/>
 		      	</div>
 		      </td>
 		      <td>
 		      	<div *ngIf="!isEditable">{{user.phone}}</div>
-		      	<div *ngIf="isEditable"><input (focus)="inputFocused($event)" type="text" value="{{user.phone}}"/></div>
+		      	<div *ngIf="isEditable"><input (click)="inputFocused($event)" type="text" value="{{user.phone}}"/></div>
 		      </td>	
 		      	      
 		    </tr>

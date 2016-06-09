@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import { CommentsService, Comment } from './shared/index';
+import { CommentsService, Comment, commentsByPostId } from './shared/index';
 import { CreateComment } from './comments.create.component';
 import { CommentsList } from './comments.list.component';
 
@@ -14,16 +14,28 @@ import { CommentsList } from './comments.list.component';
 })
 export class CommentsContainer implements OnInit {
 	@Input('post-id')
-	public postId: number;
-	public comments$: Observable < Array < Comment >> ;
+	public _postId: string;
+	public comment: Comment;
+	public comments$: Observable<{}> ;
 
-	constructor(public commentsService: CommentsService) {}
+	get postId(): number {
+		return parseInt(this._postId, 10);
+	}
+
+	constructor(public commentsService: CommentsService) {
+		this.commentsService.getComments();
+	}
 
 	/**
 	 * Runs after the component has been initialized. Gets all the comments attached to a post
 	 */
 	public ngOnInit() {
-		this.comments$ = this.commentsService.comments$.map(res => res.filter(comment => comment.postId === this.postId));
+		this.comments$ = this.commentsService.comments$
+			.let(commentsByPostId(this.postId));
+
+		this.comments$.subscribe((next: any) => {
+			console.log('next', next);
+		});
 
 		this.commentsService.getComments();
 	}

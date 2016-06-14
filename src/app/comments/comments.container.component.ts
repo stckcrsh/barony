@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/let';
 
-import { CommentsService, Comment, commentsByPostId } from './shared/index';
+import { CommentsService, Comment, commentsByPostId, getCommentEntities } from './shared/index';
 import { CreateComment } from './comments.create.component';
 import { CommentsList } from './comments.list.component';
 
@@ -18,15 +18,15 @@ import { CommentsList } from './comments.list.component';
  * and shoves that into the commentsList as well it creates a CreateComment form
  * that it gets create comment events from
  */
-export class CommentsContainer {
+export class CommentsContainer implements OnInit {
+
 	@Input('post-id')
 	public _postId: string;
 
 	// Set up the main comments object
 	public comments$: Observable < Comment[] > ;
 
-	// getter that converst the postId to an int
-	get postId(): number {
+	get postId(): number{
 		return parseInt(this._postId, 10);
 	}
 
@@ -36,10 +36,15 @@ export class CommentsContainer {
 	 * @param {CommentsService} public commentsService The Comments Service
 	 */
 	constructor(public commentsService: CommentsService) {
+		this.comments$ = this.commentsService.comments$.let(getCommentEntities());
+		this.commentsService.getComments();
+
+		this.comments$.subscribe((res: any) => console.log(res));
+	}
+
+	public ngOnInit() {
 		this.comments$ = <Observable<Comment[]>>this.commentsService.comments$
 			.let(commentsByPostId(this.postId));
-
-		this.commentsService.getComments();
 	}
 
 	/**
@@ -47,7 +52,6 @@ export class CommentsContainer {
 	 * @param {any} event The event object which contains the comment to be created
 	 */
 	public createComment(event: any) {
-		console.log(event);
 		this.commentsService.createComment(this.postId, event.comment);
 	}
 }

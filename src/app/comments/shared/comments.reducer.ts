@@ -84,4 +84,9 @@ export const commentsByPostId = (post_id: number) =>
 	state$
 	.let(getCommentEntities())
 	.map((entities: Comment[]) => entities
-		.filter((comment: Comment) => comment.postId === post_id));
+	.filter((comment: any) => {
+		return comment.postId === post_id;
+	}));
+
+
+

@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/let';
 
 import { CommentsService, Comment, commentsByPostId } from './shared/index';
 import { CreateComment } from './comments.create.component';
@@ -12,30 +12,32 @@ import { CommentsList } from './comments.list.component';
 	selector: 'sa-comments-container',
 	templateUrl: 'app/comments/comments.container.component.html'
 })
-export class CommentsContainer implements OnInit {
+
+/**
+ * Comments container is a smart component that gets all the comments for a post
+ * and shoves that into the commentsList as well it creates a CreateComment form
+ * that it gets create comment events from
+ */
+export class CommentsContainer {
 	@Input('post-id')
 	public _postId: string;
-	public comment: Comment;
-	public comments$: Observable<{}> ;
 
+	// Set up the main comments object
+	public comments$: Observable < Comment[] > ;
+
+	// getter that converst the postId to an int
 	get postId(): number {
 		return parseInt(this._postId, 10);
 	}
 
-	constructor(public commentsService: CommentsService) {
-		this.commentsService.getComments();
-	}
-
 	/**
-	 * Runs after the component has been initialized. Gets all the comments attached to a post
+	 * Contructor that loads the commentsService then initializes our comments$ Stream
+	 * then runs the getComments to load comments into the store
+	 * @param {CommentsService} public commentsService The Comments Service
 	 */
-	public ngOnInit() {
-		this.comments$ = this.commentsService.comments$
+	constructor(public commentsService: CommentsService) {
+		this.comments$ = <Observable<Comment[]>>this.commentsService.comments$
 			.let(commentsByPostId(this.postId));
-
-		this.comments$.subscribe((next: any) => {
-			console.log('next', next);
-		});
 
 		this.commentsService.getComments();
 	}

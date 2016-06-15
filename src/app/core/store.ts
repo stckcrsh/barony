@@ -10,8 +10,10 @@ export interface AppStore {
 }
 
 export interface EntityStore<T> {
-	ids: {};
-	list: Array<T>;
+	entities: {
+		[id: number]: T
+	};
+	ids: Array<number>;
 }
 export const store = provideStore({
 	'comments': ACTION_LOGGER(COMMENTS_REDUCER),

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import { Comment } from './comment.model';
-import { AppStore } from '../../core/store';
+import { AppStore, EntityStore } from '../../core/store';
 import { CommentActions } from './comments.actions';
 
 import { BASEURL } from '../../core/constants';
@@ -23,7 +23,7 @@ export class CommentsService {
 	/**
 	 * This is our main observable that will be the comments slice of the store
 	 */
-	public comments$: Observable < Comment[] > ;
+	public comments$: Observable < EntityStore < Comment > > ;
 
 	private http: Http;
 
@@ -34,7 +34,7 @@ export class CommentsService {
 	 */
 	constructor(http: Http, private store: Store < AppStore > , private commentsActions: CommentActions) {
 		this.http = http;
-		this.comments$ = < Observable < Comment[] >> store.select('comments');
+		this.comments$ = < Observable < EntityStore < Comment >>> store.select('comments');
 	}
 
 	/**

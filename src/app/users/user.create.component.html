@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!submitted">
+<div class="container">
     <form (ngSubmit)="onSubmit()" #userForm="ngForm">
       <div class="form-group">
         <label for="name">Name</label>
@@ -41,11 +41,3 @@
       <button [disabled]="!userForm.form.valid" type="submit" class="btn btn-default">Submit</button>
     </form>
 </div>
-<div  *ngIf="submitted">
- <div>{{user.name}}</div>
- <div>{{user.username}}</div>
-  <p>{{user.phone}}</p>
-  <div>{{user.email}}</div>
-</div>
-
-

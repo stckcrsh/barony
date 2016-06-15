@@ -1,0 +1,5 @@
+<div class="container">	
+	<user-list [users]="users" (selected)="selectUser($event)"></user-list>
+	<user-create (create-user)="createUser($event)"></user-create>
+	<user-small-detail [user]="selectedUser | async"></user-small-detail>
+</div>

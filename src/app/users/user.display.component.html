@@ -1,30 +1,28 @@
 <div class="container">
-	<table class="table table-hover " >
-		  <thead>
-		    <tr>
-		      <th>User Name</th>
-		      <th>Name</th>
-		      <th>Id</th>
-		      <th>Email</th>
-		      <th>Address</th>
-		      <th>phone</th>
-		      <th>website </th>
-		      <th>Company</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr *ngFor="let user of users">
-		      <th>{{user.username}}</th>
-		      <td>{{user.name}}</td>
-		      <td>{{user.id}}</td>
-		      <td>{{user.email}}</td>
-		      <th >{{user.address.street}}</th>
-		      <td>{{user.phone}}</td>
-		      <td> {{user.website}}</td>
-		      <td>{{user.company.name}}</td>
-		    </tr>
-		  </tbody>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>User Name</th>
+				<th>Name</th>
+				<th>Id</th>
+				<th>Email</th>
+				<th>Address</th>
+				<th>phone</th>
+				<th>website </th>
+				<th>Company</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor='let user of users | async' (click)="editUser(user);selected.next(user);">
+				<td>{{user.username}}</td>
+				<td>{{user.name}}</td>
+				<td>{{user.id}}</td>
+				<td>{{user.email}}</td>
+				<th>{{user.address.street}}</th>
+				<td>{{user.phone}}</td>
+				<td> {{user.website}}</td>
+				<td>{{user.company.name}}</td>
+			</tr>
+		</tbody>
 	</table>
 </div>
-<user-small-detail [user-id]="id"></user-small-detail>
-   

@@ -1,30 +1,30 @@
-import { Component ,Input} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/common';
-import { UserService, User} from './shared/index';
+import { UserService, User } from './shared/index';
+import { Router } from '@angular/router-deprecated';
 
 
 @Component({
-	selector:'user-create',
+	selector: 'user-create',
 	templateUrl: 'app/users/user.create.component.html',
-	providers:[UserService]
+	providers: [UserService]
 })
 
 export class UserCreateComponent {
-	@Input('user-id') userId: number;
-	public user: User = new User;
-	public submitted: boolean = false;
+	@Input('user-id') id: number;
+	@Output('create-user')
+	public createUser = new EventEmitter();
+	public user: User = new User();
 
-	constructor (private userService: UserService) {
-		
+	constructor(private userService: UserService, private router: Router) {
+
 	}
 
 	public onSubmit() {
-		this.userService.createUser(this.userId,this.user).
-			subscribe(
-				users => {
-					this.submitted = true;
-				},
-				error => console.log(error));
+		this.createUser.emit({ user: this.user });
+		//this.router.navigate(['Users']);		
+		this.user = new User();
 	}
+
 
 }

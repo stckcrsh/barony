@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService,User } from './shared/index';
-import { UserSmallDetailComponent } from './index';
-
-
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
+import 'rxjs/add/operator/map';
+import { UserService, User } from './shared/index';
 
 @Component({
 	selector:'user-list',
@@ -10,28 +9,14 @@ import { UserSmallDetailComponent } from './index';
 	providers:[UserService]
 })
 
-export class UserListComponent implements OnInit{
-		
 
-  errorMessage: string;
-  private users:User[];
+export class UserListComponent {
+	@Input() users: User[];
+	@Output() selected = new EventEmitter();
 
-	constructor (private userService: UserService) {
-		
-	}	
-  
-    ngOnInit() { 
-    	this.userService.getUsers()
-    	.subscribe(
-				users => this.users = users,
-				error => console.log(error));
-    }
+	constructor(public router: Router) {}
 
-   /* selectUser(user:User) {
-		this.router.navigate(['user', { id: user.id }]);
-    }*/
-
-
-
-  
+	editUser(user: User) {
+		//this.router.navigate(['Detail', { id: user.id }]);
+	}
 }

@@ -1,5 +1,11 @@
-import { Component ,OnInit , Input} from '@angular/core';
-import { UserService, User} from './shared/index';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import { RouteParams } from '@angular/router-deprecated';
+import { Router } from '@angular/router-deprecated';
+import { Store } from '@ngrx/store';
+import { AppStore } from './../core/store';
+import { UserService, User } from './shared/index';
 
 
 @Component({

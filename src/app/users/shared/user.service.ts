@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http ,URLSearchParams} from '@angular/http';
+import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { Store } from '@ngrx/store';
@@ -23,14 +23,7 @@ export class UserService {
       .map(res => res.json())
       .map(payload => ({ type: 'ADD_USER', payload }))
       .subscribe(action => this.store.dispatch(action));
-  }
-
-  getUserDetail(id: Number){
-    var searchParams = new URLSearchParams();
-    searchParams.set('id', id.toString());
-    return this.http.get(`${BASE_URL}${COMMENTURL}`, { search: searchParams })
-    .map(res => res.json());
-  }
+  }  
 
   saveUser(user: User) {
     (user.id) ? this.updateUser(user) : this.createUser(user);

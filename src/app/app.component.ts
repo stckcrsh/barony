@@ -3,9 +3,13 @@ import { Header, Footer } from './tu-components/index';
 import { HTTP_PROVIDERS } from '@angular/http';
 import { ROUTER_DIRECTIVES, RouterLink, RouteConfig, ROUTER_PROVIDERS, Router } from '@angular/router-deprecated';
 import { UserContainerComponent, UserCreateComponent, UserSmallDetailComponent } from './users//index';
+import { PostListComponent } from './posts/post.list.component';
+import { PostDetailComponent } from './posts/post.detail.component';
+import { PostCreateComponent } from './posts/post.create.component';
 
 @Component({
-	directives: [ROUTER_DIRECTIVES, Header, Footer, UserContainerComponent, UserCreateComponent, UserSmallDetailComponent],
+
+	directives: [ROUTER_DIRECTIVES, Header, Footer],
 	providers: [HTTP_PROVIDERS, ROUTER_PROVIDERS],
 	selector: 'tu-app',
 	template: `
@@ -15,12 +19,10 @@ import { UserContainerComponent, UserCreateComponent, UserSmallDetailComponent }
 })
 
 @RouteConfig([
-	{ component: UserContainerComponent, name: 'Users', path: '/users', useAsDefault: true },
-	{ component: UserCreateComponent, name: 'Create', path: '/users/create' },
-	{ component: UserSmallDetailComponent, name: 'Detail', path: '/users/:id' },
+	{ component: PostListComponent, name: 'Posts', path: '/posts', useAsDefault: true },
+	{ component: PostCreateComponent, name: 'CreateNewPost', path: '/posts/new' },
+	{ component: PostDetailComponent, name: 'PostDetail', path: '/posts/:id' },
 ])
-
-
 
 
 export class AppComponent {

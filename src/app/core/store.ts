@@ -13,7 +13,6 @@ export interface EntityStore<T> {
 	ids: {};
 	list: Array<T>;
 }
-
 export const store = provideStore({
 	'comments': ACTION_LOGGER(COMMENTS_REDUCER),
 	'users': ACTION_LOGGER(USER_REDUCER),

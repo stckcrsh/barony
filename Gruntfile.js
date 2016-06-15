@@ -16,7 +16,11 @@ module.exports = function(grunt) {
 			},
 			ts: {
 				files: '<%= app.ts_all %>',
-				tasks: ['ts:build']
+				tasks: ['tslint:build', 'ts:build']
+			},
+			scss: {
+				files: ['<%= app.sass_all %>'],
+				tasks: ['sass:build']
 			}
 		}
 	};
@@ -36,7 +40,9 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('build', function() {
 		grunt.task.run([
+			'tslint:build',
 			'ts:build',
+			'sass:build',
 			'copy:build'
 		]);
 	});

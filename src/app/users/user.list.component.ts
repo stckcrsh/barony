@@ -4,11 +4,10 @@ import 'rxjs/add/operator/map';
 import { UserService, User } from './shared/index';
 
 @Component({
-	selector:'user-list',
+	selector: 'user-list',
 	templateUrl: 'app/users/user.display.component.html',
-	providers:[UserService]
+	providers: [UserService]
 })
-
 
 export class UserListComponent {
 	@Input() users: User[];

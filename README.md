@@ -38,14 +38,14 @@ Then run these commands from the command line substituting variables wrapped in 
 	bower install
 > If there are issues with self signed certs you will need to create a file named '.bowerrc' in your user directory.
 > The contents of that file should be
-> '{"strict-ssl": false}' 
-> \#lifeAtTU
+
+>   {"strict-ssl": false} 
 
 	typings install
 > If there are issues with self signed certs you will need to create a file names '.typingsrc' in your user directory.
 > The contents of the file should be
-> 'rejectUnauthorized=false'
-> \#lifeAtTU
+
+>   rejectUnauthorized=false
 
 Now you should have all the required libraries downloaded and ready to go.
 
@@ -53,29 +53,31 @@ Now you should have all the required libraries downloaded and ready to go.
 
 	ui-toolbox-starter-app/
 	├─ src/
-	│	├─ assets/
+	│	├─ assets/	- - - - - - - All application specific assets live here
 	│	│	├─ css
 	│	│	├─ font
 	│	│	├─ img
-	│	│	├─ sass
-	│	│	├─ favicon.ico
-	│	│	└─ favicon.png
+	│	│	└─ sass
 	│	├─ bower_components/
 	│	├─ app/
+	│	├─ systemjs.config.js 	- Systemjs configuration (used for loading modules in the app)
 	│	└─ index.html
 	├─ build/
 	├─ dist/
 	├─ node_modules/
-	├─ tasks/
+	├─ tasks/ 	- - - - - - - - This is where all the Grunt tasks are located
 	├─ .bowerrc
 	├─ .jshintrc
+	├─ .gitignore
 	├─ bower.json
-	├─ build.config.js
-	├─ Gruntfile.js
-	├─ package.json
-	├─ README.md
-	├─ ts.config.json
-	└─ typings.json
+	├─ bs-config.json 	- - - - Used to configure the lite-server to load the build folder
+	├─ build.config.js	- - - - Houses all the build configurations (file locations)
+	├─ Gruntfile.js 	- - - - This is the basic grunt configuration that loads all the tasks
+	├─ package.json 	- - - - Dependency and version information for this application
+	├─ README.md	- - - - - - You are reading this file right now
+	├─ tsconfig.json	- - - - Configures Typescript for this application
+	├─ tslint.json	- - - - - - Configures the tslint task to look for our style guidlines
+	└─ typings.json 	- - - - Configures the typings dependencies (needed to load libraries in Typescript)
 
 ## Grunt Tasks
 #### Default
@@ -107,6 +109,11 @@ This task stays active and waits for file changes it then will run tasks to that
 This task transpiles our Typescript files into ES5 Javascript and generates them into our build/ directory
 
 	grunt ts:build 		//transpiles Typescript into the build/ directory
+
+#### TSLint
+This task runs the Typescript linter using the configuration from the tslint.json file
+
+	grunt tslint:build 	//lints all the typescript files
 
 ## Scripts
 ### lite

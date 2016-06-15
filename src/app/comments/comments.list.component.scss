@@ -1,0 +1,24 @@
+@import '../../bower_components/UICoE-Toolbox/sass/base/_variables';
+
+li {
+	padding-left: 10px;
+
+	&+li {
+		border-top: 1px dotted $tu-light-gray;
+	}
+
+	.comment-header {
+		.name {
+			width: 250px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.email {
+			color: $tu-blue;
+		}
+		.body {
+
+		}
+	}
+}

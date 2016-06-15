@@ -1,48 +1,44 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import { RouteParams } from '@angular/router-deprecated';
+import { Router } from '@angular/router-deprecated';
+import { Store } from '@ngrx/store';
+import { AppStore } from './../core/store';
 import { UserService, User } from './shared/index';
 
 
 @Component({
-	providers: [UserService],
 	selector: 'user-small-detail',
-	templateUrl: 'app/users/user.smallDetail.html'
+	templateUrl: 'app/users/user.smallDetail.html',
+	providers: [UserService]
 })
 
 export class UserSmallDetailComponent implements OnInit {
-	@Input('user-id')
-	public userId: number;
-	private user: User[];
+	public id: number;
+	@Input('user') user: User;
+	selectedUser: User;
 	private userSelected: boolean = false;
 	private isEditable: boolean = false;
+	originalID: number
 
 
-	constructor(private userService: UserService) {
+	constructor(private router: Router, private userService: UserService, private store: Store < AppStore > ) {
 
 	}
 
-	public ngOnInit() {
+	ngOnInit() {
 		this.userSelected = true;
-		this.userService.getUserDetail(this.userId).subscribe(user => this.user = user, error => console.log(error));
+
 	}
 
-	public editUserDetails(user: User[], event: any) {
+	editUserDetails() {
 		if (this.isEditable) {
-			if (event.target.nodeName === 'INPUT') {
-				this.isEditable = true;
-			} else {
-				this.isEditable = false;
-				this.saveUserDetails(user);
-			}
+			this.isEditable = false;
+			this.userService.updateUser(this.user);
+			this.router.navigate(['Users']);
 		} else {
 			this.isEditable = true;
 		}
-	}
-
-	public inputFocused(event: any) {
-		event.preventDefault();
-	}
-
-	public saveUserDetails(user: User[]) {
-		// this.userService.createUser(this.userId,this.user)
 	}
 }

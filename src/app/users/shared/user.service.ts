@@ -2,39 +2,42 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../core/store';
 import { User } from './user.model';
-const userUrl = 'http://jsonplaceholder.typicode.com/users';
-const BY_ID = 'http://jsonplaceholder.typicode.com/users/1';
+const BASE_URL: string = 'http://jsonplaceholder.typicode.com/';
+const COMMENTURL: string = 'users/';
 
 @Injectable()
 export class UserService {
+  public users$: Observable<Array<User>>;
+  private http: Http;
 
-	private http: Http;
+  constructor(http: Http, private store: Store<AppStore>) {
+    this.http = http;
+    this.users$ = <Observable<Array<User>>>store.select('users');
+  }
 
-	constructor(http: Http) {
-		this.http = http;
-	}
+  getUsers() {
+    this.http.get(`${BASE_URL}${COMMENTURL}`)
+      .map(res => res.json())
+      .map(payload => ({ type: 'ADD_USER', payload }))
+      .subscribe(action => this.store.dispatch(action));
+  }  
 
-	public getUsers(): Observable < User[] > {
-		return this.http.get(userUrl)
-			.map(res => res.json());
+  saveUser(user: User) {
+    (user.id) ? this.updateUser(user) : this.createUser(user);
+  }
 
-	}
+  updateUser(user: User) {
+    this.http.put(`${BASE_URL}${COMMENTURL}${user.id}`, JSON.stringify(user))
+      .subscribe(action => this.store.dispatch({ type: 'UPDATE_USER', payload: user }));
+  }
 
-	public getUserDetail(id: number): Observable < User[] > {
-		return this.http.get(BY_ID)
-			.map(res => res.json());
-	}
-
-	public createUser(userId: number, user: User): Observable < User[] > {
-		return this.http.post(userUrl, JSON.stringify(user))
-			.map(res => {
-				let newUser = res.json();
-				return Object.assign({}, user, newUser);
-			});
-	}
-
-
-
-}
+  createUser(user: User) {
+    this.http.post(`${BASE_URL}${COMMENTURL}`, JSON.stringify(user))
+      .map(res => res.json())
+      .map(payload => ({ type: 'CREATE_USER', payload }))
+      .subscribe(action => this.store.dispatch(action));
+  }
+};

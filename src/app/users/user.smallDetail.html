@@ -1,4 +1,4 @@
-<div *ngIf="user" class="container">
+<div class="container">
 	<table class="table table-hover table-striped table-bordered" >
 		  <thead>
 		    <tr>
@@ -8,25 +8,25 @@
 		      <th>Phone</th>
 		    </tr>
 		  </thead>
-		  <tbody>
-		    <tr (click)="editUserDetails(user,$event)" >
+		  <tbody *ngIf="user">
+		    <tr (click)="editUserDetails()">
 		      <td>
 		      	<div *ngIf="!isEditable">{{user.name}}</div>
-		      	<div *ngIf="isEditable"><input (focus)="inputFocused($event)"  type="text" value="{{user.name}}"/></div>
+		      	<div *ngIf="isEditable"><input (click)="$event.stopPropagation()"  type="text" value="{{user.name}}" [(ngModel)]="user.name"/></div>
 		      </td>
 		      <td>
 		      	<div *ngIf="!isEditable">{{user.username}}</div>
-		      	<div *ngIf="isEditable"><input (focus)="inputFocused($event)" type="text" value="{{user.username}}"/></div>
+		      	<div *ngIf="isEditable"><input (click)="$event.stopPropagation()" type="text" value="{{user.username}}" [(ngModel)]="user.username"/></div>
 		      </td>
 		      <td>
 		      	<div *ngIf="!isEditable">{{user.email}}</div>
 		      	<div *ngIf="isEditable">
-		      		<input  type="text" (focus)="inputFocused($event)" value="{{user.email}}"/>
+		      		<input  type="text" (click)="$event.stopPropagation()" value="{{user.email}}" [(ngModel)]="user.email"/>
 		      	</div>
 		      </td>
 		      <td>
 		      	<div *ngIf="!isEditable">{{user.phone}}</div>
-		      	<div *ngIf="isEditable"><input (focus)="inputFocused($event)" type="text" value="{{user.phone}}"/></div>
+		      	<div *ngIf="isEditable"><input [(ngModel)]="user.phone" (click)="$event.stopPropagation()" type="text" value="{{user.phone}}"/></div>
 		      </td>	
 		      	      
 		    </tr>

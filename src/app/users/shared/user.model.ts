@@ -20,4 +20,23 @@ export class User {
 		catchPhrase: string;
 		bs: string;
 	};
+
+	constructor() {
+		this.address = < {
+			street: string;
+			city: string;
+			suite: string;
+			zipcode: number;
+			geo: {
+				lat: number;
+				lng: number;
+			}
+		} > {};
+
+		this.company = < {
+			name: string;
+			catchPhrase: string;
+			bs: string;
+		} > {};
+	}
 }

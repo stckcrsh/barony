@@ -13,7 +13,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor='let user of users | async' (click)="editUser(user);selected.next(user);">
+			<tr *ngFor='let user of users' (click)="selectUser(user)">
 				<td>{{user.username}}</td>
 				<td>{{user.name}}</td>
 				<td>{{user.id}}</td>

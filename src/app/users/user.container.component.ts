@@ -1,46 +1,67 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { ROUTER_PROVIDERS, Router } from '@angular/router-deprecated';
-import { UserService, User } from './shared/index';
+import { Store } from '@ngrx/store';
+
+import { UserService, User, getSelectedUser, getUserEntities } from './shared/index';
 import { UserListComponent } from './user.list.component';
 import { UserSmallDetailComponent } from './user.smallDetail.component';
 import { UserCreateComponent } from './user.create.component';
-import { Store } from '@ngrx/store';
 import { AppStore } from './../core/store';
 
 
 @Component({
-	selector: 'user-component',
-	templateUrl: 'app/users/user.container.component.html',
-	providers: [UserService],
 	directives: [UserListComponent, UserCreateComponent, UserSmallDetailComponent],
-	changeDetection: ChangeDetectionStrategy.OnPush
+	providers: [UserService],
+	selector: 'user-component',
+	templateUrl: 'app/users/user.container.component.html'
 })
-
+/**
+ * The User Container is a smart component that sets up the 
+ * user list
+ * user small details
+ * user create
+ *
+ * @usage <user-component></user-component>
+ */
 export class UserContainerComponent {
-	public users: any;
-	public selectedUser: any;
+	// This is a stream of all the user entities
+	public users$: Observable < User[] > ;
 
-	constructor(public userService: UserService, public router: Router, private store: Store < AppStore > ) {
-		this.users = this.userService.users$;
+	// This is a stream for the selected user
+	public selectedUser$: Observable < User > ;
+
+	constructor(public router: Router, private store: Store < AppStore > , public userService: UserService) {
+		console.log('constructed');
+		this.users$ = this.userService.users$.let(getUserEntities());
+		this.selectedUser$ = < Observable < User >> this.userService.users$.let(getSelectedUser());
+
 		this.userService.getUsers();
-		this.selectedUser = < Observable < User >> store.select('selectedUser');
-		this.selectedUser.subscribe((user: any) => console.log(user));
-		this.users.subscribe((res: any) => console.log(res));
 	}
 
-	selectUser(user: User) {
-		this.store.dispatch({ type: 'SELECT_USER', payload: user });
+	/**
+	 * Event handler for the user-selected event
+	 * @param {User} user Selected user
+	 */
+	public selectUser(user: User) {
+		this.userService.selectUser(user);
 	}
 
-	createUser(event:any) {
-		this.userService.createUser(event.user);		
-		//this.router.navigate(['Create']);
+	/**
+	 * Event Handler for the create-user event
+	 * @param {User} user User to be created
+	 */
+	public createUser(user: User) {
+		this.userService.createUser(user);
 	}
 
-	saveUser(user: User) {
-		this.userService.saveUser(user);
+	/**
+	 * Event handler for the user-changed event
+	 * @param {User} user User to be updated
+	 */
+	public saveUser(user: User) {
+		this.userService.updateUser(user);
 	}
 
 }

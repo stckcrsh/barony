@@ -1,0 +1,4 @@
+<div class="mdl-cell mdl-cell--6-col">
+	<post-list [posts]="posts$ | async" (selected)="selectPost($event)" (deleted)="deletePost($event)">
+	</post-list>
+</div>

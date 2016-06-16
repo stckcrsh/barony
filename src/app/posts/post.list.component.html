@@ -1,0 +1,21 @@
+
+<div class="row">
+  <div class="col-md-1">ID</div>
+  <div class="col-md-1">User ID</div>
+  <div class="col-md-3">Title</div>
+  <div class="col-md-5">Body</div>
+  <div class="col-md-2">Action</div>
+</div>
+
+
+<div class="row" *ngFor="let post of posts" (click)="selected.emit(post)">
+  <div class="col-md-1">{{post.id}}</div>
+  <div class="col-md-1">{{post.userId}}</div>
+  <div class="col-md-3">{{post.title}}</div>
+  <div class="col-md-5">{{post.body}}</div>
+  <div class="col-md-2"><button (click)="deleted.next(item); $event.stopPropagation();" >
+		        <i class="material-icons">close</i>
+		     </button></div>
+</div>
+
+  

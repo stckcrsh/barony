@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+
 import { RouteParams } from '@angular/router-deprecated';
 
 import { Post, PostService } from './shared/index';
@@ -10,37 +11,14 @@ import { Post, PostService } from './shared/index';
 	templateUrl: 'app/posts/post.form.component.html'
 })
 
-export class PostDetailComponent implements OnInit {
+export class PostDetailComponent {
 
-	private post: Post;
+	@Input()
+	public post: Post;
 
-	private changed: boolean = false;
+	@Output()
+	public back = new EventEmitter();
 
-	private submitted: boolean = false;
 
-	constructor(public routerParam: RouteParams, public postService: PostService) {}
 
-	public ngOnInit() {
-		let id = +this.routerParam.get('id');
-		this.postService.getByID(id).subscribe(post => this.post = post);
-	}
-
-	get diagnostic() {
-		return JSON.stringify(this.post);
-	}
-
-	public onSubmit() {
-		this.postService.update(this.post).subscribe(post => this.post = post);
-		this.changed = false;
-		this.submitted = true;
-	}
-
-	public onEdit() {
-		this.changed = true;
-		this.submitted = false;
-	}
-
-	public goBack() {
-		window.history.back();
-	}
 }

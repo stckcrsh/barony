@@ -28,6 +28,6 @@ export class PostContainerComponent implements OnInit {
 	}
 
 	public selectPost(post: Post) {
-		this.router.navigate(['PostDetail', { id: post.id }]);
+		this.router.navigate(['PostMaintain', { id: post.id }]);
 	}
 }

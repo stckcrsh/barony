@@ -3,7 +3,7 @@ import { Header, Footer } from './tu-components/index';
 import { HTTP_PROVIDERS } from '@angular/http';
 import { ROUTER_DIRECTIVES, RouterLink, RouteConfig, ROUTER_PROVIDERS, Router } from '@angular/router-deprecated';
 
-import { PostContainerComponent, PostCreateComponent, PostDetailComponent } from './posts/index';
+import { PostContainerComponent, PostCreateComponent, PostDetailComponent, PostMaintainComponent } from './posts/index';
 import { PostService } from './posts/shared/index'
 import { UserContainerComponent, UserActions } from './users/index';
 import { CommentActions } from './comments/index';
@@ -21,8 +21,7 @@ import { CommentActions } from './comments/index';
 
 @RouteConfig([
 	{ component: PostContainerComponent, name: 'Posts', path: '/posts', useAsDefault: true },
-	{ component: PostCreateComponent, name: 'CreateNewPost', path: '/posts/new' },
-	{ component: PostDetailComponent, name: 'PostDetail', path: '/posts/:id' },
+	{ component: PostMaintainComponent, name: 'PostMaintain', path: '/posts/:id' },
 	{ component: UserContainerComponent, name: 'UserContainer', path: '/users' }
 ])
 

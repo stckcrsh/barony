@@ -8,7 +8,7 @@ import { Post, POST_REDUCERS, SELECTED_POST } from '../posts/shared/index'
 export interface AppStore {
 	comments: EntityStore<Comment>;
 	posts: Post[];
-	selectedPost: Post;
+	post: Post;
 	users: Selected<User>;
 }
 
@@ -29,7 +29,8 @@ export const store = provideStore(
 	ACTION_LOGGER(combineReducers({
 		'comments': COMMENTS_REDUCER,
 		'users': USER_REDUCER,
-		'posts': POST_REDUCERS
+		'posts': POST_REDUCERS,
+		'post': SELECTED_POST
 
 	}))
 );

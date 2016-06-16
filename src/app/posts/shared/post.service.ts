@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../core/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
-import { Post, GET_POSTS } from './index';
+import { Post, GET_POSTS, SELECT_POSTS } from './index';
 import { BASEURL } from '../../core/constants';
 
 const POSTS: string = '/posts';
@@ -32,8 +32,11 @@ export class PostService {
 			.subscribe(action => this._store.dispatch(action));
 	}
 
-	public getByID(id: number): Observable < Post > {
-		return this.http.get(`${BASEURL}${BY_ID}${id}`).map(this.extractData).catch(this.handleError);
+	public getByID(id: number) {
+		 this.http.get(`${BASEURL}${BY_ID}${id}`)
+			.map(res => res.json())
+			.map(payload => ({type: SELECT_POSTS, payload}))
+			.subscribe(action => this._store.dispatch(action));
 	}
 
 	public add(post: Post): Observable < Post > {

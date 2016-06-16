@@ -4,11 +4,18 @@ import { Observable } from 'rxjs/Observable';
 
 import { Post, PostService } from './shared/index';
 
+import { PostDetailComponent } from './index'
+
 
 @Component({
+	directives: [PostDetailComponent],
 	providers: [PostService],
-	selector: 'post-detail',
-	templateUrl: 'app/posts/post.form.component.html'
+	selector: 'post-maintain',
+	template: `
+		<post-detail [post]="post$ | async" (back)="goBack()"></post-detail>
+
+	`,
+
 })
 
 export class PostMaintainComponent implements OnInit {
@@ -20,5 +27,13 @@ export class PostMaintainComponent implements OnInit {
 	public ngOnInit() {
 		let id = +this.routerParam.get('id');
 		this.post$ = this.postService.post$;
+		this.postService.getByID(id);
+		//this.post$.subscribe(post => console.log(post));
 	}
+
+	public goBack() {
+		console.log("hi")
+		window.history.back();
+	}
+
 }

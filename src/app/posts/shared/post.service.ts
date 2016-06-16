@@ -1,45 +1,56 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../core/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
+import { Post, GET_POSTS } from './index';
+import { BASEURL } from '../../core/constants';
 
-import { Post } from './post.model';
+const POSTS: string = '/posts';
+const BY_ID: string = '/posts/';
+const UPDATE_POST: string = 'http://jsonplaceholder.typicode.com/posts/{1}';
+const CREATE_POST: string = 'http://jsonplaceholder.typicode.com/posts';
+
+
+
 @Injectable()
 export class PostService {
 
-	private POSTS: string = 'http://jsonplaceholder.typicode.com/posts';
-	private BY_ID: string = 'http://jsonplaceholder.typicode.com/posts/{1}';
-	private UPDATE_POST: string = 'http://jsonplaceholder.typicode.com/posts/{1}';
-	private CREATE_POST: string = 'http://jsonplaceholder.typicode.com/posts';
+	posts$: Observable < Post[] > ;
+	post$: Observable < Post > ;
 
-	constructor(private http: Http) {}
-
-	public getAll(): Observable < Post[] > {
-		return this.http.get(this.POSTS)
-			.map(this.extractData)
-			.catch(this.handleError);
+	constructor(private http: Http, private _store: Store < AppStore > ) {
+		this.posts$ = < Observable < Post[] >> _store.select("posts");
+		this.post$ = < Observable < Post >> _store.select("post");
 	}
 
-	public getByID(id: number): Observable<Post> {
-		return this.http.get(this.BY_ID.replace('{1}', id.toString())).map(this.extractData).catch(this.handleError);
+	public getAll() {
+		this.http.get(`${BASEURL}${POSTS}`)
+			.map(res => res.json())
+			.map(payload => ({ type: GET_POSTS, payload }))
+			.subscribe(action => this._store.dispatch(action));
 	}
 
-	public add(post: Post): Observable<Post> {
+	public getByID(id: number): Observable < Post > {
+		return this.http.get(`${BASEURL}${BY_ID}${id}`).map(this.extractData).catch(this.handleError);
+	}
+
+	public add(post: Post): Observable < Post > {
 
 		let body = JSON.stringify(post);
 		let headers = new Headers({ 'Content-Type': 'application/json' });
 		let options = new RequestOptions({ headers: headers });
-		return this.http.post(this.CREATE_POST, body, options).map(this.extractData).catch(this.handleError);
+		return this.http.post(CREATE_POST, body, options).map(this.extractData).catch(this.handleError);
 
 	}
 
-	public update(post: Post): Observable<Post> {
+	public update(post: Post): Observable < Post > {
 
 		let body = JSON.stringify(post);
 		let headers = new Headers({ 'Content-Type': 'application/json' });
 		let options = new RequestOptions({ headers: headers });
-		return this.http.put(this.UPDATE_POST.replace('{1}', post.id.toString()), body, options).map(this.extractData).catch(this.handleError);
+		return this.http.put(UPDATE_POST.replace('{1}', post.id.toString()), body, options).map(this.extractData).catch(this.handleError);
 
 	}
 

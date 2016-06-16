@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router-deprecated';
 
-import { Post } from './shared/post.model';
-import { PostService } from './shared/post.service';
+import { PostService, Post } from './shared/index';
 
 
 @Component({
@@ -29,7 +28,7 @@ export class PostCreateComponent implements OnInit {
 	public onSubmit() {
 		this.postService.add(this.post).subscribe(post => {
 			this.post = post;
-			this.router.navigate(['PostDetail', { id: this.post.id }]);
+
 		});
 	}
 

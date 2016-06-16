@@ -4,18 +4,34 @@ import 'rxjs/add/operator/map';
 import { UserService, User } from './shared/index';
 
 @Component({
+	providers: [UserService],
 	selector: 'user-list',
-	templateUrl: 'app/users/user.display.component.html',
-	providers: [UserService]
+	templateUrl: 'app/users/user.display.component.html'
 })
 
+/**
+ * User List dumb component
+ * displays a list of all the users
+ *
+ * @usage <user-list [users]="users" (user-selected)="eventHandler()"></user-list>
+ */
 export class UserListComponent {
-	@Input() users: User[];
-	@Output() selected = new EventEmitter();
+
+	// User list input
+	@Input('users')
+	public users: User[];
+
+	// Output event emitter
+	@Output('user-selected')
+	private selectedUser = new EventEmitter();
 
 	constructor(public router: Router) {}
 
-	editUser(user: User) {
-		//this.router.navigate(['Detail', { id: user.id }]);
+	/**
+	 * Click event handler to select a user
+	 * @param {User} user Selected User
+	 */
+	public selectUser(user: User) {
+		this.selectedUser.next(user);
 	}
 }

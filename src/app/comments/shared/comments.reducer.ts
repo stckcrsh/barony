@@ -10,7 +10,7 @@ import { EntityStore } from '../../core/store';
 /**
  * Initial state for this sliver of the store
  */
-let initialState: EntityStore < Comment > = {
+const initialState: EntityStore < Comment > = {
 	entities: {},
 	ids: []
 };

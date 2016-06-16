@@ -1,22 +1,28 @@
-import { provideStore } from '@ngrx/store';
+import { provideStore, combineReducers } from '@ngrx/store';
 import { Comment, COMMENTS_REDUCER } from '../comments/index';
 import { ACTION_LOGGER } from './meta-reducers/logger';
-import { User, SELECTED_USER, USER_REDUCER } from '../users/index';
+import { User, USER_REDUCER } from '../users/index';
 
 export interface AppStore {
-	comments: EntityStore<Comment>;
-	users: User[];
-    selectedUser: User;
+	comments: EntityStore < Comment > ;
+	users: Selected<User>;
 }
 
-export interface EntityStore<T> {
+export interface EntityStore < T > {
 	entities: {
 		[id: number]: T
 	};
-	ids: Array<number>;
+	ids: Array < number > ;
 }
-export const store = provideStore({
-	'comments': ACTION_LOGGER(COMMENTS_REDUCER),
-	'users': ACTION_LOGGER(USER_REDUCER),
-	'selectedUser': ACTION_LOGGER(SELECTED_USER)
-});
+
+export interface Selected < T > extends EntityStore < T > {
+	selected: number;
+}
+
+
+export const store = provideStore(
+	ACTION_LOGGER(combineReducers({
+		'comments': COMMENTS_REDUCER,
+		'users': USER_REDUCER
+	}))
+);

@@ -1,44 +1,46 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import { RouteParams } from '@angular/router-deprecated';
-import { Router } from '@angular/router-deprecated';
-import { Store } from '@ngrx/store';
-import { AppStore } from './../core/store';
-import { UserService, User } from './shared/index';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
+import { User } from './shared/index';
 
 @Component({
 	selector: 'user-small-detail',
-	templateUrl: 'app/users/user.smallDetail.html',
-	providers: [UserService]
+	templateUrl: 'app/users/user.smallDetail.html'
 })
 
-export class UserSmallDetailComponent implements OnInit {
-	public id: number;
-	@Input('user') user: User;
-	selectedUser: User;
-	private userSelected: boolean = false;
-	private isEditable: boolean = false;
-	originalID: number
+/**
+ * User small detail dumb component
+ *
+ * @usage <user-small-detail [user]="user" (user-changed)="eventHandler"></user-small-detail>
+ */
+export class UserSmallDetailComponent {
+	public isEditable: boolean = false;
+	private _user: User;
 
+	// user-changed event emitter
+	@Output('user-changed')
+	private userChanged = new EventEmitter();
 
-	constructor(private router: Router, private userService: UserService, private store: Store < AppStore > ) {
-
+	// user input that copies the user into the _user private variable
+	@Input('user')
+	set user(value: User) {
+		this._user = Object.assign({}, value);
 	}
 
-	ngOnInit() {
-		this.userSelected = true;
-
+	get user(): User {
+		return this._user;
 	}
 
-	editUserDetails() {
-		if (this.isEditable) {
-			this.isEditable = false;
-			this.userService.updateUser(this.user);
-			this.router.navigate(['Users']);
-		} else {
+	// click handler to make the table editable
+	public editUserDetails() {
+		if (!this.isEditable) {
 			this.isEditable = true;
 		}
 	}
+
+	// event handler for when the changes are saved
+	public updateUser() {
+		this.userChanged.next(this._user);
+		this.isEditable = false;
+	}
+
 }

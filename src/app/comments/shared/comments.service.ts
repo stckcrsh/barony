@@ -25,14 +25,12 @@ export class CommentsService {
 	 */
 	public comments$: Observable < EntityStore < Comment > > ;
 
-	private http: Http;
-
 	/**
 	 * Loads our dependencies on creation
 	 * @param {Http}            Http Provider
 	 * @param {Store<AppStore>} @ngrx store
 	 */
-	constructor(http: Http, private store: Store < AppStore > , private commentsActions: CommentActions) {
+	constructor(private http: Http, private store: Store < AppStore > , private commentsActions: CommentActions) {
 		this.http = http;
 		this.comments$ = < Observable < EntityStore < Comment >>> store.select('comments');
 	}

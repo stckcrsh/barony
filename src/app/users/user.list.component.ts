@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
+import 'rxjs/add/operator/map';
 import { UserService, User } from './shared/index';
-
-
 
 @Component({
 	providers: [UserService],
@@ -9,18 +9,29 @@ import { UserService, User } from './shared/index';
 	templateUrl: 'app/users/user.display.component.html'
 })
 
-export class UserListComponent implements OnInit {
+/**
+ * User List dumb component
+ * displays a list of all the users
+ *
+ * @usage <user-list [users]="users" (user-selected)="eventHandler()"></user-list>
+ */
+export class UserListComponent {
 
-	private users: User[];
+	// User list input
+	@Input('users')
+	public users: User[];
 
-	constructor(private userService: UserService) {
+	// Output event emitter
+	@Output('user-selected')
+	private selectedUser = new EventEmitter();
 
-	}
+	constructor(public router: Router) {}
 
-	public ngOnInit() {
-		this.userService.getUsers()
-			.subscribe(
-				users => this.users = users,
-				error => console.log(error));
+	/**
+	 * Click event handler to select a user
+	 * @param {User} user Selected User
+	 */
+	public selectUser(user: User) {
+		this.selectedUser.next(user);
 	}
 }

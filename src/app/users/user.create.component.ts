@@ -1,30 +1,59 @@
-import { Component, Input } from '@angular/core';
-import { UserService, User } from './shared/index';
+import { Component, Output, EventEmitter } from '@angular/core';
 
+import { User } from './shared/index';
 
 @Component({
-	providers: [UserService],
 	selector: 'user-create',
-	templateUrl: 'app/users/user.create.component.html'
+	templateUrl: 'app/users/user.create.component.html',
 })
 
+/**
+ * This is the user creation form dumb component
+ *
+ * @usage <user-create (create-user)="eventHandler()"></user-create>
+ */
 export class UserCreateComponent {
-	@Input('user-id')
-	public userId: number;
-	public user: User = new User;
-	public submitted: boolean = false;
 
-	constructor(private userService: UserService) {
+	// Output emitter when a user is created
+	@Output('create-user')
+	public createUser = new EventEmitter();
 
+	public user: User = new User();
+	public active: boolean = true;
+
+	constructor() {
+		this.user.address = < {
+			street: string;
+			city: string;
+			suite: string;
+			zipcode: number;
+			geo: {
+				lat: number;
+				lng: number;
+			}
+		} > {};
 	}
 
+	/**
+	 * Form submit event handler 
+	 * Emits create-user event
+	 * then resets the form
+	 */
 	public onSubmit() {
-		this.userService.createUser(this.userId, this.user).
-		subscribe(
-			users => {
-				this.submitted = true;
-			},
-			error => console.log(error));
+		this.createUser.emit(this.user);
+		this.resetForm();
 	}
+
+	/**
+	 * Resets the form to pristine
+	 */
+	private resetForm() {
+		this.user = new User();
+		this.active = false;
+
+		// remove then bring back quickly
+		setTimeout(() => this.active = true, 0);
+	}
+
 
 }

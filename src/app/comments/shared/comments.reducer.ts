@@ -1,3 +1,8 @@
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/let';
+import 'rxjs/add/operator/filter';
+
 import { CommentActions } from './comments.actions';
 import { Comment } from './comment.model';
 import { EntityStore } from '../../core/store';
@@ -5,9 +10,9 @@ import { EntityStore } from '../../core/store';
 /**
  * Initial state for this sliver of the store
  */
-let initialState: EntityStore < Comment > = {
-	ids: {},
-	list: []
+const initialState: EntityStore < Comment > = {
+	entities: {},
+	ids: []
 };
 
 /**
@@ -16,19 +21,34 @@ let initialState: EntityStore < Comment > = {
  */
 export const COMMENTS_REDUCER = (state = initialState, { type, payload }) => {
 	switch (type) {
+
+		/**
+		 * Load all the comments in.  This will look for new comments that are different from the current state
+		 * then add just those new comments in.
+		 */
 		case CommentActions.GET_COMMENTS:
 			let newComments = payload.filter((comment: Comment) => !state.ids[comment.id]).map((comment: Comment) => comment.id);
-			let newIds = payload.reduce((prev: any, comment: Comment) => Object.assign(prev, {
+			let newEntities = payload.reduce((prev: any, comment: Comment) => Object.assign(prev, {
 				[comment.id]: comment
 			}), {});
 
-			return Object.assign({}, state, { ids: Object.assign({}, state.ids, newIds), list: [...state.list, ...newComments] });
+			return Object.assign({}, state, { entities: Object.assign({}, state.entities, newEntities), ids: [...state.ids, ...newComments] });
+
+			/**
+			 * Adding a comment to the store
+			 * Because our service does not have the ability to create new ids i am generating new ones myself
+			 */
 		case CommentActions.ADD_TO_COMMENTS:
+			// get the max id cause our service can't 
+			let max = Object.keys(state.entities).reduce((prev: string, curr: string) => parseInt(curr, 10) > parseInt(prev, 10) ? curr : prev);
+
+			// create a new comment with the id set to the max + 1
+			let newPayload = Object.assign({}, payload, { id: max + 1 });
 			return Object.assign({}, state, {
-				ids: Object.assign({}, state.ids, {
-					[payload.id]: payload
+				entities: Object.assign({}, state.entities, {
+					[newPayload.id]: newPayload
 				}),
-				list: [...state.list, payload.id]
+				ids: [...state.ids, newPayload.id]
 			});
 		default:
 			return state;
@@ -48,16 +68,25 @@ export const COMMENTS_REDUCER = (state = initialState, { type, payload }) => {
  */
 
 /**
- * This selector will grab the all the comments for a particular postId
+ * This will return all the entities from a state EntityStore<Comment>
+ * @returns {Observable<Comment[]>}
  */
-export const commentsByPostId = (post_id: number) => {
-	return (state$: any) => state$
-		.distinctUntilChanged()
-		.map((state: any) =>
-			state.list.filter((comment_id: string) => {
-				return state.ids[comment_id] && (state.ids[comment_id].postId === post_id);
-			})
-			.map((id: number) => state.ids[id])
-		)
-		.distinctUntilChanged();
-};
+export const getCommentEntities = () =>
+	(state$: Observable < EntityStore < Comment >> ) => < Observable < Comment[] >> state$
+	.map((state: EntityStore < Comment > ) => < Comment[] > state.ids.map((id: number) => state.entities[id]));
+
+/**
+ * This selector will grab the all the comments for a particular postId and filter the list based on them
+ * @returns {Observable<Comment[]>}
+ */
+export const commentsByPostId = (post_id: number) =>
+	(state$: Observable < EntityStore < Comment >> ) => < Observable < Comment[] >>
+	state$
+	.let(getCommentEntities())
+	.map((entities: Comment[]) => entities
+	.filter((comment: any) => {
+		return comment.postId === post_id;
+	}));
+
+
+

@@ -12,7 +12,7 @@ import { PostDetailComponent } from './index'
 	providers: [PostService],
 	selector: 'post-maintain',
 	template: `
-		<post-detail [post]="post$ | async" (back)="goBack()"></post-detail>
+		<post-detail [post]="post$ | async" (back)="goBack()" (save)="save($event)"></post-detail>
 
 	`,
 
@@ -34,6 +34,10 @@ export class PostMaintainComponent implements OnInit {
 	public goBack() {
 		console.log("hi")
 		window.history.back();
+	}
+
+	public save(post: Post) {
+		console.log(typeof post);
 	}
 
 }

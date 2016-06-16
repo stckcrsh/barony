@@ -1,7 +1,5 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-
 import { RouteParams } from '@angular/router-deprecated';
-
 import { Post, PostService } from './shared/index';
 
 
@@ -13,12 +11,20 @@ import { Post, PostService } from './shared/index';
 
 export class PostDetailComponent {
 
+
 	@Input()
 	public post: Post;
 
 	@Output()
 	public back = new EventEmitter();
 
+	@Output()
+	public save = new EventEmitter();
 
+	changed: boolean = false;
+
+	public onEdit() {
+		this.changed = true;
+	}
 
 }

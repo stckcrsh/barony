@@ -10,7 +10,7 @@ import { CommentActions } from './comments.actions';
 
 import { BASEURL } from '../../core/constants';
 
-const COMMENTURL = '/comments';
+const COMMENTURL = 'comments/';
 
 
 @Injectable()
@@ -33,6 +33,8 @@ export class CommentsService {
 	constructor(private http: Http, private store: Store < AppStore > , private commentsActions: CommentActions) {
 		this.http = http;
 		this.comments$ = < Observable < EntityStore < Comment >>> store.select('comments');
+
+		this.getComments();
 	}
 
 	/**

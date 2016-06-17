@@ -1,3 +1,5 @@
-<h1>Comments List</h1>
-<sa-comments-list [comments]="comments$ | async"></sa-comments-list>
-<sa-comment-create (create-comment)="createComment($event)"></sa-comment-create>
+<div class="container">
+	<h3>Comments</h3>
+	<sa-comments-list [comments]="comments$ | async"></sa-comments-list>
+	<sa-comment-create (create-comment)="createComment($event)"></sa-comment-create>
+</div>

@@ -1,77 +1,92 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../core/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
-import { Post, GET_POSTS, SELECT_POSTS } from './index';
+
+import { AppStore, Selected } from '../../core/store';
+import { Post } from './post.model';
+import { PostActions } from './post.actions';
 import { BASEURL } from '../../core/constants';
 
-const POSTS: string = '/posts';
-const BY_ID: string = '/posts/';
-const UPDATE_POST: string = 'http://jsonplaceholder.typicode.com/posts/{1}';
-const CREATE_POST: string = 'http://jsonplaceholder.typicode.com/posts';
-
-
+const POSTS = 'posts/';
 
 @Injectable()
+	/**
+	 * The PostService will handle the stream object to the posts slice of the store.
+	 * As well it will run the http requests for all the posts pieces (loading, creating, updating)
+	 */
 export class PostService {
+	/**
+	 * This is the main Observable that houses the posts slice of the state
+	 */
+	public posts$: Observable < Selected < Post >> ;
 
-	posts$: Observable < Post[] > ;
-	post$: Observable < Post > ;
-
-	constructor(private http: Http, private _store: Store < AppStore > ) {
-		this.posts$ = < Observable < Post[] >> _store.select("posts");
-		this.post$ = < Observable < Post >> _store.select("post");
+	/**
+	 * Loads our dependencies
+	 * @param {Http}        private http        Http Provider
+	 * @param {Store<AppStore>}           store Ngrx Store
+	 * @param {PostActions} postActions Post Actions
+	 */
+	constructor(private http: Http, private store: Store < AppStore > , private postActions: PostActions) {
+		this.posts$ = < Observable < Selected < Post >>> store.select('posts');
+		this.getAll();
 	}
 
+	/**
+	 * Sends out an http reqeust to gather all the posts. Then pushes that up to the store
+	 * @return {Observable<Post[]>} Observable of all the loaded posts
+	 */
 	public getAll() {
-		this.http.get(`${BASEURL}${POSTS}`)
-			.map(res => res.json())
-			.map(payload => ({ type: GET_POSTS, payload }))
-			.subscribe(action => this._store.dispatch(action));
+		let result$ = this.http.get(`${BASEURL}${POSTS}`)
+			.map(res => res.json());
+
+		result$
+			.map(payload => this.postActions.loadPosts(payload))
+			.subscribe(action => this.store.dispatch(action));
+
+		return result$;
 	}
 
-	public getByID(id: number) {
-		 this.http.get(`${BASEURL}${BY_ID}${id}`)
-			.map(res => res.json())
-			.map(payload => ({type: SELECT_POSTS, payload}))
-			.subscribe(action => this._store.dispatch(action));
-	}
-
+	/**
+	 * Sends out an http reqeust to add a new post. Then pushes that up to the store
+	 * @return {Observable<Post>} Observable of the created post
+	 */
 	public add(post: Post): Observable < Post > {
 
 		let body = JSON.stringify(post);
 		let headers = new Headers({ 'Content-Type': 'application/json' });
 		let options = new RequestOptions({ headers: headers });
-		return this.http.post(CREATE_POST, body, options).map(this.extractData).catch(this.handleError);
+		let result$ = this.http.post(`${BASEURL}${POSTS}`, body, options)
+			.map(res => res.json());
+
+		result$
+		.map(payload => this.postActions.createPost(Object.assign({}, post)))
+		.subscribe(action => this.store.dispatch(action));
+
+		return result$;
 
 	}
 
+	/**
+	 * Sends out an http reqeust to update a post. Then pushes that up to the store
+	 * @return {Observable<Post>} Observable of the updated post
+	 */
 	public update(post: Post): Observable < Post > {
 
 		let body = JSON.stringify(post);
 		let headers = new Headers({ 'Content-Type': 'application/json' });
 		let options = new RequestOptions({ headers: headers });
-		return this.http.put(UPDATE_POST.replace('{1}', post.id.toString()), body, options).map(this.extractData).catch(this.handleError);
 
-	}
+		// we put a one in because our service cant handle the new posts we create
+		let result$ = this.http.put(`${BASEURL}${POSTS}1`, body, options)
+			.map(res => res.json());
 
+		result$
+		.map(payload => this.postActions.updatePost(post))
+		.subscribe(action => this.store.dispatch(action));
 
+		return result$;
 
-	private extractData(res: Response) {
-
-		if (res.status < 200 || res.status >= 300) {
-			throw new Error('Response Status :' + res.status);
-		}
-		let body = res.json();
-		return body;
-	}
-
-	private handleError(error: any) {
-		console.log(error);
-		let errorMsg = error.message;
-		console.log(errorMsg);
-		return Observable.throw(errorMsg);
 	}
 }

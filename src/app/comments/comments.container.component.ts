@@ -1,8 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/let';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switch';
 
-import { CommentsService, Comment, commentsByPostId, getCommentEntities } from './shared/index';
+import { CommentsService, Comment, commentsByPostId } from './shared/index';
 import { CreateComment } from './comments.create.component';
 import { CommentsList } from './comments.list.component';
 
@@ -18,16 +21,15 @@ import { CommentsList } from './comments.list.component';
  * and shoves that into the commentsList as well it creates a CreateComment form
  * that it gets create comment events from
  */
-export class CommentsContainer implements OnInit {
-
-	@Input('post-id')
-	public _postId: string;
+export class CommentsContainer {
 
 	// Set up the main comments object
 	public comments$: Observable < Comment[] > ;
 
-	get postId(): number{
-		return parseInt(this._postId, 10);
+	private postId$: BehaviorSubject < number > ;
+	@Input('post-id')
+	set postId(value: string) {
+		this.postId$.next(parseInt(value, 10));
 	}
 
 	/**
@@ -36,15 +38,11 @@ export class CommentsContainer implements OnInit {
 	 * @param {CommentsService} public commentsService The Comments Service
 	 */
 	constructor(public commentsService: CommentsService) {
-		this.comments$ = this.commentsService.comments$.let(getCommentEntities());
-		this.commentsService.getComments();
+		this.postId$ = < BehaviorSubject < number >> new BehaviorSubject(null);
+		this.comments$ = this.postId$.map(id => this.commentsService.comments$.let(commentsByPostId(id))).switch();
 
-		this.comments$.subscribe((res: any) => console.log(res));
-	}
-
-	public ngOnInit() {
-		this.comments$ = <Observable<Comment[]>>this.commentsService.comments$
-			.let(commentsByPostId(this.postId));
+		this.postId$.subscribe(res => console.log('id', res));
+		this.comments$.subscribe(res => console.log('comments', res));
 	}
 
 	/**
@@ -52,6 +50,6 @@ export class CommentsContainer implements OnInit {
 	 * @param {any} event The event object which contains the comment to be created
 	 */
 	public createComment(event: any) {
-		this.commentsService.createComment(this.postId, event.comment);
+		this.commentsService.createComment(this.postId$.getValue(), event.comment);
 	}
 }

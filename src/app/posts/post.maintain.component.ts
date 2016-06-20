@@ -77,4 +77,8 @@ export class PostMaintainComponent {
 		this.userService.updateUser(user);
 	}
 
+	public save(post: Post) {
+		console.log(typeof post);
+	}
+
 }

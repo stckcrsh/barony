@@ -1,9 +1,9 @@
 
 <div class="container" *ngIf="post">
-
+{{jsonObj()}}
     <h1>Post Form </h1>
     <h3 *ngIf="submitted">{{successMsg}}</h3>
-    <form (ngSubmit)="onSubmit()" #postForm="ngForm">
+    <form (ngSubmit)="save.emit(post)" #postForm="ngForm">
       <div class="form-group">
         <label for="name">ID</label>
         <input type="text" [(ngModel)]="post.id" [disabled]="!changed" class="form-control" ngControl="id" #postID="ngForm" required> 

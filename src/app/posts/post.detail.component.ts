@@ -1,5 +1,5 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { RouteParams } from '@angular/router-deprecated';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
 import { Post, PostService } from './shared/index';
 
 
@@ -9,22 +9,53 @@ import { Post, PostService } from './shared/index';
 	templateUrl: 'app/posts/post.form.component.html'
 })
 
+/**
+ * Post detail dumb component
+ * @usage <post-detail [post]="post" 
+ *        	(back)="eventHandler()" 
+ *        	(change-post)="eventHandler(post)"></post-detail>
+ */
 export class PostDetailComponent {
 
+	// flag for editing the form
+	public changed: boolean = false;
 
-	@Input()
-	public post: Post;
+	// the post item that we can two way bind with
+	private _post: Post;
 
-	@Output()
-	public back = new EventEmitter();
+	// setting the input post to copy the post into a new variable
+	@Input('post')
+	set post(value: Post) {
+		this._post = Object.assign({}, value);
+	}
 
-	@Output()
-	public save = new EventEmitter();
+	// return the stored private post
+	get post(): Post {
+		return this._post;
+	}
 
-	changed: boolean = false;
+	// back event emitter
+	@Output('back')
+	private back = new EventEmitter();
 
+	// change-post event emitter
+	@Output('change-post')
+	private postChanged = new EventEmitter();
+
+	// click event handler for the edit button
 	public onEdit() {
-		this.changed = true;
+		this.changed = !this.changed;
+	}
+
+	// click event handler for back button
+	public goBack() {
+		this.back.next({});
+	}
+
+	// event handler for the form sumission
+	public onSubmit() {
+		this.postChanged.next(this.post);
+		this.changed = false;
 	}
 
 }

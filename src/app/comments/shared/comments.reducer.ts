@@ -5,7 +5,7 @@ import 'rxjs/add/operator/filter';
 
 import { CommentActions } from './comments.actions';
 import { Comment } from './comment.model';
-import { EntityStore } from '../../core/store';
+import { EntityStore, getEntities } from '../../core/store';
 
 /**
  * Initial state for this sliver of the store
@@ -67,13 +67,6 @@ export const COMMENTS_REDUCER = (state = initialState, { type, payload }) => {
  * https://github.com/ngrx/example-app/blob/master/src/reducers/books.ts
  */
 
-/**
- * This will return all the entities from a state EntityStore<Comment>
- * @returns {Observable<Comment[]>}
- */
-export const getCommentEntities = () =>
-	(state$: Observable < EntityStore < Comment >> ) => < Observable < Comment[] >> state$
-	.map((state: EntityStore < Comment > ) => < Comment[] > state.ids.map((id: number) => state.entities[id]));
 
 /**
  * This selector will grab the all the comments for a particular postId and filter the list based on them
@@ -82,11 +75,8 @@ export const getCommentEntities = () =>
 export const commentsByPostId = (post_id: number) =>
 	(state$: Observable < EntityStore < Comment >> ) => < Observable < Comment[] >>
 	state$
-	.let(getCommentEntities())
+	.let(getEntities < Comment > ())
 	.map((entities: Comment[]) => entities
-	.filter((comment: any) => {
-		return comment.postId === post_id;
-	}));
-
-
-
+		.filter((comment: any) => {
+			return comment.postId === post_id;
+		}));

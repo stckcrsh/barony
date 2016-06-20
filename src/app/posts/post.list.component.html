@@ -8,14 +8,12 @@
 </div>
 
 
-<div class="row" *ngFor="let post of posts" (click)="selected.emit(post)">
+<div class="row" *ngFor="let post of posts" (click)="selectPost(post)">
   <div class="col-md-1">{{post.id}}</div>
   <div class="col-md-1">{{post.userId}}</div>
   <div class="col-md-3">{{post.title}}</div>
   <div class="col-md-5">{{post.body}}</div>
-  <div class="col-md-2"><button (click)="deleted.next(item); $event.stopPropagation();" >
-		        <i class="material-icons">close</i>
-		     </button></div>
+  <div class="col-md-2"></div>
 </div>
 
   

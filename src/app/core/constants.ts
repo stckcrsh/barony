@@ -1,1 +1,1 @@
-export const BASEURL = 'http://jsonplaceholder.typicode.com';
+export const BASEURL = 'http://jsonplaceholder.typicode.com/';

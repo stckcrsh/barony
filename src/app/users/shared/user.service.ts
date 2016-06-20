@@ -12,10 +12,10 @@ const BASE_URL = 'http://jsonplaceholder.typicode.com/';
 const COMMENTURL = 'users/';
 
 @Injectable()
-	/**
-	 * The UserService will handle the stream object to the users slice of the store.
-	 * As well it will run the http requests for all the users pieces (loading, creating, updating)
-	 */
+/**
+ * The UserService will handle the stream object to the users slice of the store.
+ * As well it will run the http requests for all the users pieces (loading, creating, updating)
+ */
 export class UserService {
 
 	/**
@@ -31,6 +31,7 @@ export class UserService {
 	 */
 	constructor(private http: Http, private store: Store < AppStore > , private userActions: UserActions) {
 		this.users$ = < Observable < Selected < User >>> store.select('users');
+		this.getUsers();
 	}
 
 	/**

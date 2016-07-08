@@ -8,5 +8,8 @@ if (envConfig.ENV === envConfig.ENVS.DEV) {
 	gulp.task('copy', function() {
 		gulp.src(config.toolbox.src)
 			.pipe(copy(config.assetsPath.toolbox, { prefix: 4 }));
+
+		gulp.src(config.toolbox.favicons)
+			.pipe(copy(config.src, { prefix: 4 }));
 	});
 }

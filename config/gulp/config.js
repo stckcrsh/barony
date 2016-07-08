@@ -40,7 +40,7 @@ module.exports = function() {
 			}
 		},
 		toolbox = {
-			src: 'node_modules/uicoe-toolbox/dist/dist/**/*',
+			src: ['node_modules/uicoe-toolbox/dist/dist/**/*', '!node_modules/uicoe-toolbox/dist/dist/favicon.*'],
 			favicons: ['node_modules/uicoe-toolbox/dist/dist/favicon.*']
 		},
 		report = {

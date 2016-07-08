@@ -7,3 +7,5 @@
 /src/tmp
 .DS_Store
 /src/assets/styles/*.css
+/src/assets/toolbox
+/src/favicon.*

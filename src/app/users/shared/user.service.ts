@@ -9,7 +9,7 @@ import { AppStore, Selected } from '../../core/store';
 import { User } from './user.model';
 
 const BASE_URL = 'http://jsonplaceholder.typicode.com/';
-const COMMENTURL = 'users/';
+const USERS_URL = 'users/';
 
 @Injectable()
 /**
@@ -39,7 +39,7 @@ export class UserService {
 	 * @return {Observable<User[]>} Observable of all the loaded users
 	 */
 	public getUsers(): Observable < User[] > {
-		let result$ = this.http.get(`${BASE_URL}${COMMENTURL}`)
+		let result$ = this.http.get(`${BASE_URL}${USERS_URL}`)
 			.map(res => res.json());
 
 		result$
@@ -50,22 +50,13 @@ export class UserService {
 	}
 
 	/**
-	 * updates or creates a user based on their id
-	 * @param  {User}       user the user to be updated or created
-	 * @return {Observable<User>}      User to be updated or created
-	 */
-	public saveUser(user: User): Observable < User > {
-		return (user.id) ? this.updateUser(user) : this.createUser(user);
-	}
-
-	/**
 	 * Updates a user by making an http request and when that succeeds passes it on 
 	 * to the store
 	 * @param  {User}       user User to be updated
 	 * @return {Observable<User>}      User that was updated
 	 */
 	public updateUser(user: User): Observable < User > {
-		let result$ = this.http.put(`${BASE_URL}${COMMENTURL}1`, JSON.stringify(user))
+		let result$ = this.http.put(`${BASE_URL}${USERS_URL}1`, JSON.stringify(user))
 			.map(res => res.json());
 
 		result$
@@ -82,7 +73,7 @@ export class UserService {
 	 * @return {Observable}      User that was created
 	 */
 	public createUser(user: User): Observable < User > {
-		let result$ = this.http.post(`${BASE_URL}${COMMENTURL}`, JSON.stringify(user))
+		let result$ = this.http.post(`${BASE_URL}${USERS_URL}/fadsfdsafsd`, JSON.stringify(user))
 			.map(res => res.json());
 
 		result$

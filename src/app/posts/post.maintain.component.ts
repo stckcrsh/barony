@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouteParams, Router } from '@angular/router-deprecated';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/let';
 import 'rxjs/add/operator/switch';
@@ -8,16 +8,19 @@ import { Post, PostService } from './shared/index';
 import { PostDetailComponent } from './post.detail.component';
 import { getEntity } from '../core/store';
 import { CommentsContainer } from '../comments/index';
-import { User, UserService, UserSmallDetailComponent } from '../users/index';
+import { User, UserSmallDetailComponent } from '../users/index';
+import { UserService } from '../users/shared/user.service';
 
 @Component({
 	directives: [PostDetailComponent, CommentsContainer, UserSmallDetailComponent],
-	providers: [PostService, UserService],
 	selector: 'post-maintain',
 	template: `
-		<user-small-detail [user]="user$ | async" (user-changed)="userChanged($event)" ></user-small-detail>
-		<post-detail [post]="post$ | async" (back)="goBack()" (change-post)="postChanged($event)"></post-detail>
-		<sa-comments-container [post-id]="postId$ | async" ></sa-comments-container>
+		<h4><small><a (click)="goBack()">&lt; BACK</a></small></h4>
+		<div class="row">
+			<user-small-detail [user]="user$ | async" (user-changed)="userChanged($event)" ></user-small-detail>
+			<post-detail [post]="post$ | async" (back)="goBack()" (change-post)="postChanged($event)"></post-detail>
+			<sa-comments-container [post-id]="postId$ | async" ></sa-comments-container>
+		</div>
 	`,
 
 })
@@ -38,25 +41,20 @@ export class PostMaintainComponent {
 	// stream for the postId mapped from the post$
 	public postId$: Observable < number > ;
 
-	// the id grabbed from the router params
-	public id: string;
-
 	/**
 	 * Setup the initial values. 
 	 * Initialize the streams from their respective services
-	 * @param {RouteParams}  routerParam RouterParams
-	 * @param {Router}       router      Router
+	 * @param {ActivatedRoute} route The Activated Route 
 	 * @param {UserService}  userService User Service
 	 * @param {PostService}  postService Post Service
 	 */
 	constructor(
-		private routerParam: RouteParams,
-		private router: Router,
 		private userService: UserService,
-		private postService: PostService) {
+		private postService: PostService,
+		private route: ActivatedRoute
+	) {
 
-		this.id = this.routerParam.get('id');
-		this.post$ = this.postService.posts$.let(getEntity < Post > (parseInt(this.id, 10)));
+		this.post$ = this.route.params.map((params: any) => this.postService.posts$.let(getEntity < Post > (parseInt(params.id, 10)))).switch();
 		this.user$ = this.post$.map(post => this.userService.users$.let(getEntity < User > (post.userId))).switch();
 
 		this.postId$ = this.post$.map(post => post.id);
@@ -64,7 +62,7 @@ export class PostMaintainComponent {
 
 	// event handler for the back event
 	public goBack() {
-		this.router.navigate(['Posts']);
+		window.history.back();
 	}
 
 	// event handler for the change-post event

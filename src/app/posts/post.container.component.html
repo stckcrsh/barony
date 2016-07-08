@@ -1,4 +1,5 @@
-<div class="mdl-cell mdl-cell--6-col">
-	<post-list [posts]="posts$ | async" (selected)="selectPost($event)" (deleted)="deletePost($event)">
-	</post-list>
+<div class="btn-group pull-right">
+	<button class="btn btn-primary" (click)="createPost()">Create New Post</button>
 </div>
+<post-list [posts]="posts$ | async" (selected)="selectPost($event)" (deleted)="deletePost($event)"></post-list>
+

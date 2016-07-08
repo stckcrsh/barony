@@ -1,9 +1,9 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { UserService, User } from './shared/index';
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [UserService],
 	selector: 'user-list',
 	templateUrl: 'app/users/user.display.component.html'
@@ -25,7 +25,7 @@ export class UserListComponent {
 	@Output('user-selected')
 	private selectedUser = new EventEmitter();
 
-	constructor(public router: Router) {}
+	constructor() {}
 
 	/**
 	 * Click event handler to select a user

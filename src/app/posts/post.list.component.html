@@ -1,19 +1,18 @@
-
-<div class="row">
-  <div class="col-md-1">ID</div>
-  <div class="col-md-1">User ID</div>
-  <div class="col-md-3">Title</div>
-  <div class="col-md-5">Body</div>
-  <div class="col-md-2">Action</div>
-</div>
-
-
-<div class="row" *ngFor="let post of posts" (click)="selectPost(post)">
-  <div class="col-md-1">{{post.id}}</div>
-  <div class="col-md-1">{{post.userId}}</div>
-  <div class="col-md-3">{{post.title}}</div>
-  <div class="col-md-5">{{post.body}}</div>
-  <div class="col-md-2"></div>
-</div>
-
-  
+<table class="table table-hover table-bordered">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>User ID</th>
+			<th>Title</th>
+			<th>Body</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let post of posts" (click)="selectPost(post)">
+			<td>{{post.id}}</td>
+			<td>{{post.userId}}</td>
+			<td>{{post.title}}</td>
+			<td>{{post.body}}</td>
+		</tr>
+	</tbody>
+</table>

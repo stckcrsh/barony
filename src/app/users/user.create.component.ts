@@ -41,18 +41,6 @@ export class UserCreateComponent {
 	 */
 	public onSubmit() {
 		this.createUser.emit(this.user);
-		this.resetForm();
-	}
-
-	/**
-	 * Resets the form to pristine
-	 */
-	private resetForm() {
-		this.user = new User();
-		this.active = false;
-
-		// remove then bring back quickly
-		setTimeout(() => this.active = true, 0);
 	}
 
 

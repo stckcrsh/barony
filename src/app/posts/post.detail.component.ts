@@ -12,7 +12,6 @@ import { Post, PostService } from './shared/index';
 /**
  * Post detail dumb component
  * @usage <post-detail [post]="post" 
- *        	(back)="eventHandler()" 
  *        	(change-post)="eventHandler(post)"></post-detail>
  */
 export class PostDetailComponent {
@@ -34,10 +33,6 @@ export class PostDetailComponent {
 		return this._post;
 	}
 
-	// back event emitter
-	@Output('back')
-	private back = new EventEmitter();
-
 	// change-post event emitter
 	@Output('change-post')
 	private postChanged = new EventEmitter();
@@ -45,11 +40,6 @@ export class PostDetailComponent {
 	// click event handler for the edit button
 	public onEdit() {
 		this.changed = !this.changed;
-	}
-
-	// click event handler for back button
-	public goBack() {
-		this.back.next({});
 	}
 
 	// event handler for the form sumission

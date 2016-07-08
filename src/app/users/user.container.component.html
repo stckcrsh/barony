@@ -1,5 +1,4 @@
-<div class="container">
-	<user-list [users]="users$ | async" (user-selected)="selectUser($event)"></user-list>
-	<user-create (create-user)="createUser($event)"></user-create>
-	<user-small-detail (user-changed)="saveUser($event)" [user]="selectedUser$ | async"></user-small-detail>
+<div class="btn-group pull-right">
+	<button class="btn btn-primary" (click)="createUser()">Create New User</button>
 </div>
+<user-list [users]="users$ | async" (user-selected)="selectUser($event)"></user-list>

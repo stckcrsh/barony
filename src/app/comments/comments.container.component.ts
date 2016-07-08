@@ -40,9 +40,6 @@ export class CommentsContainer {
 	constructor(public commentsService: CommentsService) {
 		this.postId$ = < BehaviorSubject < number >> new BehaviorSubject(null);
 		this.comments$ = this.postId$.map(id => this.commentsService.comments$.let(commentsByPostId(id))).switch();
-
-		this.postId$.subscribe(res => console.log('id', res));
-		this.comments$.subscribe(res => console.log('comments', res));
 	}
 
 	/**

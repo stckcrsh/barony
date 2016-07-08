@@ -1,42 +1,40 @@
-<div class="container">
-	<form (ngSubmit)="onSubmit()" #userForm="ngForm" *ngIf="active">
-		<div class="form-group">
-			<label for="name">Name</label>
-			<input type="text" [(ngModel)]="user.name" class="form-control" ngControl="name" #name="ngForm" required="required">
-			<div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-				Name is required
-			</div>
+<form (ngSubmit)="onSubmit()" #userForm="ngForm" *ngIf="active">
+	<div class="form-group">
+		<label for="name">Name</label>
+		<input type="text" [(ngModel)]="user.name" class="form-control" ngControl="name" #name="ngForm" required="required">
+		<div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+			Name is required
 		</div>
-		<div class="form-group">
-			<label for="alterEgo">User Name</label>
-			<input type="text" [(ngModel)]="user.username" ngControl="username" class="form-control" #username="ngForm" required="required">
-			<div [hidden]="username.valid || username.pristine" class="alert alert-danger">
-				User Name is required
-			</div>
+	</div>
+	<div class="form-group">
+		<label for="alterEgo">User Name</label>
+		<input type="text" [(ngModel)]="user.username" ngControl="username" class="form-control" #username="ngForm" required="required">
+		<div [hidden]="username.valid || username.pristine" class="alert alert-danger">
+			User Name is required
 		</div>
-		<div class="form-group">
-			<label for="alterEgo">Phone</label>
-			<input type="text" [(ngModel)]="user.phone" ngControl="phone" class="form-control">
+	</div>
+	<div class="form-group">
+		<label for="alterEgo">Phone</label>
+		<input type="text" [(ngModel)]="user.phone" ngControl="phone" class="form-control">
+	</div>
+	<div class="form-group">
+		<label for="alterEgo">Email</label>
+		<input type="email" [(ngModel)]="user.email" ngControl="email" class="form-control" required="required" #email="ngForm">
+		<div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+			Email is required
 		</div>
-		<div class="form-group">
-			<label for="alterEgo">Email</label>
-			<input type="email" [(ngModel)]="user.email" ngControl="email" class="form-control" required="required" #email="ngForm">
-			<div [hidden]="email.valid || email.pristine" class="alert alert-danger">
-				Email is required
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="name">Website</label>
-			<input type="text" [(ngModel)]="user.website" class="form-control" ngControl="website">
-		</div>
-		<div class="form-group">
-			<label for="name">Address</label>
-			<input type="text" [(ngModel)]="user.address.street" class="form-control" ngControl="address">
-		</div>
-		<div class="form-group">
-			<label for="name">Company</label>
-			<input type="text" [(ngModel)]="user.company.name" class="form-control" ngControl="company">
-		</div>
-		<button [disabled]="!userForm.form.valid" type="submit" class="btn btn-default">Submit</button>
-	</form>
-</div>
+	</div>
+	<div class="form-group">
+		<label for="name">Website</label>
+		<input type="text" [(ngModel)]="user.website" class="form-control" ngControl="website">
+	</div>
+	<div class="form-group">
+		<label for="name">Address</label>
+		<input type="text" [(ngModel)]="user.address.street" class="form-control" ngControl="address">
+	</div>
+	<div class="form-group">
+		<label for="name">Company</label>
+		<input type="text" [(ngModel)]="user.company.name" class="form-control" ngControl="company">
+	</div>
+	<button [disabled]="!userForm.form.valid" type="submit" class="btn btn-default">Submit</button>
+</form>

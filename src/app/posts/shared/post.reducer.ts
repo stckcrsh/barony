@@ -35,9 +35,9 @@ export const POST_REDUCERS = (state: Selected < Post > = initialState, { type, p
 				ids: [...state.ids, ...newPosts.map((post: Post) => post.id)]
 			});
 
-		/**
-		 * Creates a new post and sets its id to the maxId + 1
-		 */
+			/**
+			 * Creates a new post and sets its id to the maxId + 1
+			 */
 		case PostActions.CREATE_POST_COMPLETE:
 			// get the max id cause our service can't 
 			let max = parseInt(Object.keys(state.entities).reduce(
@@ -52,9 +52,9 @@ export const POST_REDUCERS = (state: Selected < Post > = initialState, { type, p
 				ids: [...state.ids, newPayload.id]
 			});
 
-		/**
-		 * Updates a current post by changing its value in the entities field
-		 */
+			/**
+			 * Updates a current post by changing its value in the entities field
+			 */
 		case PostActions.UPDATE_POST_COMPLETE:
 			return Object.assign({}, state, {
 				entities: Object.assign({}, state.entities, {
@@ -63,9 +63,9 @@ export const POST_REDUCERS = (state: Selected < Post > = initialState, { type, p
 				ids: [...state.ids]
 			});
 
-		/**
-		 * Changes the selected post based on the post that is sent
-		 */
+			/**
+			 * Changes the selected post based on the post that is sent
+			 */
 		case PostActions.SELECT_POST_COMPLETE:
 			return Object.assign({}, state, { selected: payload.id });
 
@@ -92,10 +92,10 @@ export const POST_REDUCERS = (state: Selected < Post > = initialState, { type, p
  * @returns {Observable<Post[]>}
  */
 export const postsByUserId = (user_id: number) =>
-	(state$: Observable<Selected<Post>>) => <Observable<Post[]>>
-		state$
-			.let(getEntities<Post>())
-			.map((entities: Post[]) => entities
-				.filter((comment: any) => {
-					return comment.postId === user_id;
-				}));
+	(state$: Observable < Selected < Post >> ) => < Observable < Post[] >>
+	state$
+	.let(getEntities < Post > ())
+	.map((entities: Post[]) => entities
+		.filter((post: Post) => {
+			return post.userId === user_id;
+		}));

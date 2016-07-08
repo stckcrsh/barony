@@ -1,10 +1,10 @@
-@import '../../bower_components/UICoE-Toolbox/sass/base/_variables';
+// @import '../../bower_components/UICoE-Toolbox/sass/base/_variables';
 
 li {
 	padding-left: 10px;
 
 	&+li {
-		border-top: 1px dotted $tu-light-gray;
+		border-top: 1px dotted #000000;
 	}
 
 	.comment-header {
@@ -15,10 +15,10 @@ li {
 			text-overflow: ellipsis;
 		}
 		.email {
-			color: $tu-blue;
+			color: #CCCCCC;
 		}
 		.body {
 
-		}
+		} 
 	}
 }

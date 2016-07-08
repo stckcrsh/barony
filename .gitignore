@@ -1,10 +1,9 @@
-/build
+.idea/
 /node_modules
-/dist
-/.sass-cache
-/*.log
-src/bower_components
-/.tscache
-/.sass-cache
+/bower_components
+/build
+/report
 /typings
-tscommand*.txt
+/src/tmp
+.DS_Store
+/src/assets/styles/*.css

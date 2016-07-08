@@ -1,126 +1,91 @@
-# UICoE Toolbox Starter App
-This starter application is to be used as a seed for other ui projects within TU. Instructions below will describe how to set up the app integrate in the UICoE Toolbox components.
+# UICoE Angular 2 Starter
+This starter is based off the work by [antonybudianto](https://github.com/antonybudianto/angular2-starter)
+It has been updated to match the UICoE needs 
 
-## Prerequisites
-#### Nodejs
-Nodejs is necessary for all aspects of the ui-toolbox project.  You can make this request from the [Desktop Services](https://rc.transunion.com/DesktopService/desktopServiceRequest.do) app on the [Request Catalog](htps://rc.transunion.com) it is under the software tab as Nodejs.
+## Table of Content
+* [Introduction](#introduction)
+* [Installation](#installation)
+* [Start](#start)
+* [Testing](#testing)
+* [Production](#production)
 
-Nodejs should come with the node package manager (npm) which we will use throughout the process for downloading required libraries.
+## Introduction
+Welcome to Angular 2 Starter!
+This starter contains almost everything you need to start developing [Angular 2](https://angular.io/):
+* [NPM](https://www.npmjs.com/) for package manager
+* [TypeScript](http://www.typescriptlang.org/) for the base language
+  * with [Typings](https://github.com/typings/typings) for TypeScript definition manager
+* [Gulp](http://gulpjs.com/) for workflow (from *serve*, *watch*, *compile*, *test* to *build*)
+* [Browsersync](https://www.browsersync.io/) for development server & reload capability
+* [SystemJS](https://github.com/systemjs/systemjs) for module loader
+* [Codelyzer](https://github.com/mgechev/codelyzer) for static code analyzer
+* [Karma](http://karma-runner.github.io/) for test-runner
+* [Jasmine](http://jasmine.github.io/) for test framework
+* [Istanbul](https://github.com/gotwarlost/istanbul) for test coverage
+  * with [Remap Istanbul](https://github.com/SitePen/remap-istanbul) for remapping Javascript to TypeScript coverage
+* [SystemJS Builder](https://github.com/systemjs/builder) or [Webpack](https://webpack.github.io/) for module bundling in production
 
-#### Ruby
-You must have Ruby installed on your machine to run the SASS compiler.  You can make this request from the [Desktop Services](https://rc.transunion.com/DesktopService/desktopServiceRequest.do) app on the [Request Catalog](htps://rc.transunion.com) it is under the software tab as Ruby.
+Please visit the [wiki](https://github.com/antonybudianto/angular2-starter/wiki) for more details.
 
-Once you have ruby run this command from the command line to install the SASS Ruby compiler.
+## Installation
+Firstly, you need to have [Node.js](https://nodejs.org/en/)
+- For v4, please use v4.3.x (LTS) or higher (**highly** recommended)
+- For v5, please use v5.6.x or higher, here is [why](https://nodejs.org/en/blog/vulnerability/february-2016-security-releases/)
+- Ready for v6
 
-	gem install sass
+> You need v4.x or higher for [Protractor](https://angular.github.io/protractor/#/)
 
-## Initial Setup
-### One time setup (Globals)
-		
-	npm install -g grunt-cli
-	npm install -g concurrently
-	npm install -g typescript
-	npm install -g bower
-	npm install -g typings
-		
-Clone the project to your local development environment. Then remove the '.git/' directory 
+Then, install these packages globally:
+```bash
+npm install -g gulp
+```
 
-	cd {project_root}
-	git clone --depth 1 https://stash.transunion.com/scm/uit/uicoe-toolbox-starter-app.git .
-	rm -rf .git/
+After that, go to the starter directory and just run:
+```bash
+npm install
+```
 
-> Careful with the remove command and make sure that you are at the root of the starter app before running this command
+## Start
+Let's start up the server, run:
+`gulp` or `gulp serve-dev`
 
-Then run these commands from the command line substituting variables wrapped in curly brackets '{}'
+and done! The browser will popup and you can start trying Angular 2!
+Every changes to the file will refresh the browser automatically
+and it'll also compile your changed TypeScripts files to Javascript files.
 
-	cd {project_root}
-	npm install
-	bower install
-> If there are issues with self signed certs you will need to create a file named '.bowerrc' in your user directory.
-> The contents of that file should be
+## Testing
+This starter comes with testing gulp workflow
 
->   {"strict-ssl": false} 
+### Unit testing
+Just run
+```bash
+gulp test
+```
+and it'll compile all TypeScript files, start Karma, then remap Istanbul coverage so that it shows TypeScript coverage, not the transpiled JavaScript coverage.
 
-	typings install
-> If there are issues with self signed certs you will need to create a file names '.typingsrc' in your user directory.
-> The contents of the file should be
+![Coverage result](http://s33.postimg.org/w7m9ckdkf/Screen_Shot_2016_06_04_at_8_15_53_AM.png)
 
->   rejectUnauthorized=false
+### E2E testing
+Firstly start the server:
+```
+gulp serve-dev
+```
 
-Now you should have all the required libraries downloaded and ready to go.
+To begin testing, run in a seperate session
+```bash
+gulp e2e
+```
+and it'll compile all E2E spec files in `/src/test/e2e/*.spec.ts`, boot up Selenium server then launches Chrome browser.
 
-## Project Structure
+## Production
+> All build tasks will run the `gulp test`, the bundle will only be created if the test passed.
 
-	ui-toolbox-starter-app/
-	├─ src/
-	│	├─ assets/	- - - - - - - All application specific assets live here
-	│	│	├─ css
-	│	│	├─ font
-	│	│	├─ img
-	│	│	└─ sass
-	│	├─ bower_components/
-	│	├─ app/
-	│	├─ systemjs.config.js 	- Systemjs configuration (used for loading modules in the app)
-	│	└─ index.html
-	├─ build/
-	├─ dist/
-	├─ node_modules/
-	├─ tasks/ 	- - - - - - - - This is where all the Grunt tasks are located
-	├─ .bowerrc
-	├─ .jshintrc
-	├─ .gitignore
-	├─ bower.json
-	├─ bs-config.json 	- - - - Used to configure the lite-server to load the build folder
-	├─ build.config.js	- - - - Houses all the build configurations (file locations)
-	├─ Gruntfile.js 	- - - - This is the basic grunt configuration that loads all the tasks
-	├─ package.json 	- - - - Dependency and version information for this application
-	├─ README.md	- - - - - - You are reading this file right now
-	├─ tsconfig.json	- - - - Configures Typescript for this application
-	├─ tslint.json	- - - - - - Configures the tslint task to look for our style guidlines
-	└─ typings.json 	- - - - Configures the typings dependencies (needed to load libraries in Typescript)
-
-## Grunt Tasks
-#### Default
-When grunt is called without any arguments the [build-watch](#user-content-build-watch) task 
-
-	grunt
-
-#### Build
-The build task compiles our source and sass files, validates and copies everything over to the build directory (un-minified) to be served from a web server.
-
-	grunt build
-
-#### Build Watch
-This task is to be used during active development. It is similar to the build, but when it is complete it runs a task to watch for file changes and then copy and/or recompile resources as they are saved.
-
-	grunt build-watch
-
-##### Copy
-This task will copy files over from the app/ and node_module/ directories into the correct locations in the build/ directory
-
-	grunt copy:build 		//copies the app/ directory to the build/ directory
-
-#### Watch
-This task stays active and waits for file changes it then will run tasks to that file based on its filetype
-
-	grunt watch
-
-#### Typescript
-This task transpiles our Typescript files into ES5 Javascript and generates them into our build/ directory
-
-	grunt ts:build 		//transpiles Typescript into the build/ directory
-
-#### TSLint
-This task runs the Typescript linter using the configuration from the tslint.json file
-
-	grunt tslint:build 	//lints all the typescript files
-
-## Scripts
-### lite
-By default the npm install command will install lite-server to use for development purposes and it can be started by using the command 
-
-	npm run lite
-
-The lite-server is used alot for our example application but is not for final production builds.
-
-Connecting to the lite-server is done by navigating to [http://localhost:3000](http://localhost:3000) for the lite-server admin page or [http://localhost:3001](http://localhost:3001) for the generated app
+You can create production build by running:
+```bash
+gulp build
+```
+or you can create production build and then serve it using Browsersync by running:
+```bash
+gulp serve-build
+```
+The starter defaults to bundle using [SystemJS Builder extension](https://github.com/ngstarter/systemjs-extension).

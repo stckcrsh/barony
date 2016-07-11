@@ -1,6 +1,6 @@
 {
 	"name": "uicoe-toolbox-starter-app",
-	"version": "0.1.0-prerelease.0",
+	"version": "0.1.0-SNAPSHOT",
 	"author": "Zachary Woolever",
 	"description": "UICoE Angular 2 starter built from the antonybudianto starter",
 	"main": "src/tmp/app/main.js",

@@ -47,6 +47,15 @@ After that, go to the starter directory and just run:
 npm install
 ```
 
+npm install will automagically run the typings install when it completes
+If you need to rerun it or if there are issues you can use this command
+
+	typings install
+> If there are issues with self signed certs you will need to create a file names '.typingsrc' in your user directory.
+> The contents of the file should be
+
+>   rejectUnauthorized=false
+
 ## Start
 Let's start up the server, run:
 `gulp` or `gulp serve-dev`

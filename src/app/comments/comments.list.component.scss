@@ -1,10 +1,10 @@
-// @import '../../bower_components/UICoE-Toolbox/sass/base/_variables';
+@import 'base/_variables';
 
 li {
 	padding-left: 10px;
 
 	&+li {
-		border-top: 1px dotted #000000;
+		border-top: 1px dotted $white;
 	}
 
 	.comment-header {
@@ -15,7 +15,7 @@ li {
 			text-overflow: ellipsis;
 		}
 		.email {
-			color: #CCCCCC;
+			color: $tu-blue;
 		}
 		.body {
 

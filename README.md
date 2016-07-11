@@ -1,3 +1,5 @@
+[![Build Status](https://jenkins.transunion.com/buildStatus/icon?job=uicoe/uit-toolbox_starter-build-dev)](https://jenkins.transunion.com/job/uicoe/job/uit-toolbox_starter-build-dev/)
+
 # UICoE Angular 2 Starter
 This starter is based off the work by [antonybudianto](https://github.com/antonybudianto/angular2-starter)
 It has been updated to match the UICoE needs 

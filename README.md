@@ -1,15 +1,16 @@
-[![Build Status](https://jenkins.transunion.com/buildStatus/icon?job=uicoe/uit-toolbox_starter-build-dev)](https://jenkins.transunion.com/job/uicoe/job/uit-toolbox_starter-build-dev/)
+[![Build Status](https://jenkins.transunion.com/job/uicoe/job/uit-toolbox_starter-build-dev/badge/icon)](https://jenkins.transunion.com/job/uicoe/job/uit-toolbox_starter-build-dev/)
 
 # UICoE Angular 2 Starter
 This starter is based off the work by [antonybudianto](https://github.com/antonybudianto/angular2-starter)
 It has been updated to match the UICoE needs 
 
 ## Table of Content
-* [Introduction](#introduction)
-* [Installation](#installation)
-* [Start](#start)
-* [Testing](#testing)
-* [Production](#production)
+* [Introduction](#user-content-introduction)
+* [Prerequisites](#user-content-prerequisites)
+* [Installation](#user-content-installation)
+* [Start](#user-content-start)
+* [Testing](#user-content-testing)
+* [Production](#user-content-production)
 
 ## Introduction
 Welcome to Angular 2 Starter!
@@ -29,6 +30,20 @@ This starter contains almost everything you need to start developing [Angular 2]
 
 Please visit the [wiki](https://github.com/antonybudianto/angular2-starter/wiki) for more details.
 
+## Prerequisites
+### Nodejs
+Nodejs is necessary for all aspects of the ui-toolbox project.  You can make this request from the [Desktop Services](https://rc.transunion.com/DesktopService/desktopServiceRequest.do) app on the [Request Catalog](htps://rc.transunion.com) it is under the software tab as Nodejs.
+
+Nodejs should come with the node package manager (npm) which we will use throughout the process for downloading required libraries.
+
+### Ruby
+You must have Ruby installed on your machine to run the SASS compiler.  You can make this request from the [Desktop Services](https://rc.transunion.com/DesktopService/desktopServiceRequest.do) app on the [Request Catalog](htps://rc.transunion.com) it is under the software tab as Ruby.
+
+Once you have ruby run this command from the command line to install the SASS Ruby compiler.
+
+	gem install sass
+
+
 ## Installation
 Firstly, you need to have [Node.js](https://nodejs.org/en/)
 - For v4, please use v4.3.x (LTS) or higher (**highly** recommended)
@@ -39,8 +54,10 @@ Firstly, you need to have [Node.js](https://nodejs.org/en/)
 
 Then, install these packages globally:
 ```bash
-npm install -g gulp
+npm install -g gulp typings
 ```
+
+Gulp is our task manager and typings installs library api files for typescript.
 
 After that, go to the starter directory and just run:
 ```bash

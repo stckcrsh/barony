@@ -59,6 +59,14 @@ npm install -g gulp typings
 
 Gulp is our task manager and typings installs library api files for typescript.
 
+Clone the project to your local development environment. Then remove the '.git/' directory 
+
+	cd {project_root}
+	git clone --depth 1 https://stash.transunion.com/scm/uit/uicoe-toolbox-starter-app.git .
+	rm -rf .git/
+
+> Careful with the remove command and make sure that you are at the root of the starter app before running this command
+
 After that, go to the starter directory and just run:
 ```bash
 npm install

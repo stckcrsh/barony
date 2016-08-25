@@ -4,18 +4,18 @@
 	<form (ngSubmit)="onSubmit()" #postForm="ngForm">
 		<div class="form-group">
 			<label for="alterEgo">User ID</label>
-			<input type="text" [(ngModel)]="post.userId" ngControl="userId" class="form-control" required #postUserId="ngForm">
+			<input type="text" [(ngModel)]="post.userId" name="userId" class="form-control" required #postUserId="ngModel">
 			<div [hidden]="postUserId.valid || postUserId.pristine" class="alert alert-danger">
 				User ID cannot be blank
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="alterEgo">Title</label>
-			<input type="text" [(ngModel)]="post.title" ngControl="title" class="form-control">
+			<input type="text" [(ngModel)]="post.title" name="title" class="form-control">
 		</div>
 		<div class="form-group">
 			<label for="alterEgo">Body</label>
-			<textarea [(ngModel)]="post.body" ngControl="body" class="form-control" rows="10"></textarea>
+			<textarea [(ngModel)]="post.body" name="body" class="form-control" rows="10"></textarea>
 		</div>
 		<div class="btn-group pull-right">
 			<button type="submit" class="btn btn-default" [disabled]="!postForm.form.valid">Create</button>

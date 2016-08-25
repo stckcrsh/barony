@@ -1,8 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { UserService, User } from './shared/index';
-import { UserCreateComponent } from './user.create.component';
+import { UserService, User, UserCreateComponent } from '../users/index';
 
 @Component({
 	directives: [UserCreateComponent],
@@ -13,7 +12,7 @@ import { UserCreateComponent } from './user.create.component';
 	`
 })
 
-export class CreateUserContainer implements OnDestroy {
+export class UserCreatePage implements OnDestroy {
 
 	// Used to save the subscription object so it can be cleaned up on destroy
 	public subscription: any;

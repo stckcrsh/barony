@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { HTTP_PROVIDERS } from '@angular/http';
-import { ROUTER_DIRECTIVES } from '@angular/router';
 
 import { Header, Footer } from './tu-components/index';
 import { NavBar } from './navbar.component';
-import { UserService } from './users/index';
+import { UserService } from './users/shared/index';
+import { CommentsService } from './comments/shared/index';
+import { PostService } from './posts/shared/index';
 
 @Component({
 
-	directives: [ROUTER_DIRECTIVES, Header, Footer, NavBar],
-	providers: [HTTP_PROVIDERS, UserService],
+	directives: [Header, Footer, NavBar],
+	providers: [UserService, PostService, CommentsService],
 	selector: 'tu-app',
 	template: `
 	<tu-header></tu-header>
@@ -22,5 +22,6 @@ import { UserService } from './users/index';
 })
 
 export class AppComponent {
+	constructor(userService: UserService, postService: PostService, commentsService: CommentsService){}
 
 }

@@ -3,11 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/let';
 import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/skipWhile';
 import { Store } from '@ngrx/store';
 
 import { Post, PostService, PostDetailComponent } from '../posts/index';
 import { CommentsList, CreateComment, CommentsService, Comment } from '../comments/index';
-import { AppStore, getSelectedPost, getUserFromSelectedPost } from '../reducers/store';
+import { AppStore, getPost, getUser, getCommentsByPostId } from '../reducers/store';
 import { UserSmallDetailComponent, User, UserService } from '../users/index';
 
 @Component({
@@ -59,11 +60,10 @@ export class PostDetailPage {
 		private route: ActivatedRoute,
 		private store: Store < AppStore >
 	) {
-
-		this.post$ = this.store.let(getSelectedPost());
-		this.postId$ = this.post$.map(post =>
-			post.id);
-		this.user$ = this.store.let(getUserFromSelectedPost());
+		this.post$ = this.route.params.switchMap((params: any) => this.store.let(getPost(params.id)));
+		this.postId$ = this.post$.map(post => post.id);
+		this.user$ = this.post$.switchMap((post: Post) => this.store.let(getUser(post.userId)));
+		this.comments$ = this.post$.switchMap((post: Post) => this.store.let(getCommentsByPostId(post.id)));
 	}
 
 	// event handler for the back event

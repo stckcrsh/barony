@@ -11,8 +11,6 @@ import COMMENTS_REDUCER, * as fromComments from './comments.reducer';
 import POST_REDUCERS, * as fromPosts from './post.reducer';
 import USER_REDUCER, * as fromUsers from './user.reducer';
 
-
-
 /**
  * Interface that represents what the store will look like
  */
@@ -125,6 +123,10 @@ export function getPostsByUserId(userId: string) {
 	return compose(fromPosts.getPostsByUserId(userId), getPostsState());
 }
 
+export function hasPostLoaded() {
+	return compose(fromPosts.hasLoaded(), getPostsState());
+}
+
 export function getPostsBySelectedUser() {
 	return (state$: Observable < AppStore > ) =>
 		state$
@@ -166,6 +168,10 @@ export function getAllUsers() {
 
 export function getSelectedUser() {
 	return compose(fromUsers.getSelectedUser(), getUsersState());
+}
+
+export function hasUsersLoaded(){
+	return compose(fromUsers.hasLoaded(), getUsersState());
 }
 
 export function getUserFromSelectedPost() {

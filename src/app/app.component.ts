@@ -22,5 +22,6 @@ import { PostService } from './posts/shared/index';
 })
 
 export class AppComponent {
+	constructor(userService: UserService, postService: PostService, commentsService: CommentsService){}
 
 }

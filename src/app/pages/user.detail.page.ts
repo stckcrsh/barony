@@ -7,7 +7,7 @@ import 'rxjs/add/operator/let';
 
 import { PostListComponent, Post, PostService } from '../posts/index';
 import { User, UserSmallDetailComponent, UserService } from '../users/index';
-import { AppStore, getSelectedUser, getPostsBySelectedUser } from '../reducers/store';
+import { AppStore, getUser, getPostsByUserId } from '../reducers/store';
 
 @Component({
 	directives: [PostListComponent, UserSmallDetailComponent],
@@ -42,8 +42,9 @@ export class UserDetailPage {
 		private route: ActivatedRoute,
 		private store: Store < AppStore >
 	) {
-		this.user$ = this.store.let(getSelectedUser());
-		this.posts$ = this.store.let(getPostsBySelectedUser());
+
+		this.user$ = this.route.params.switchMap((params: any) => this.store.let(getUser(params.id)));
+		this.posts$ = this.user$.switchMap(user => this.store.let(getPostsByUserId(user.id)));
 	}
 
 	/**

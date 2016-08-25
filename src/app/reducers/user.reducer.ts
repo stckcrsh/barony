@@ -17,13 +17,31 @@ export interface UsersState extends Selected < User > {
 	};
 	ids: string[];
 	selected: string;
+	loaded: boolean
 }
 
 const initialState: UsersState = {
 	entities: {},
 	ids: [],
-	selected: null
+	selected: null,
+	loaded: false
 };
+
+/**
+ * Unnecessary code used to supplement the shortcomings of the json service we use
+ */
+let ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+let ID_LENGTH = 4;
+
+let generate = function() {
+	let rtn = '';
+	for (let i = 0; i < ID_LENGTH; i++) {
+		rtn += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
+	}
+	return rtn;
+};
+
 
 /**
  * Users Reducer.  This is used for updating the state of the users when there is a user related action 
@@ -44,19 +62,15 @@ export default function USER_REDUCER(state: Selected < User > = initialState, { 
 
 			return Object.assign({}, state, {
 				entities: Object.assign({}, state.entities, newEntities),
-				ids: [...state.ids, ...newUsers]
+				ids: [...state.ids, ...newUsers],
+				loaded: true
 			});
 
 			/**
-			 * Creates a new users and sets its id to the maxId + 1
+			 * Creates a new users and sets its id to a guid
 			 */
 		case UserActions.CREATE_USER_COMPLETE:
-			// get the max id cause our service can't 
-			let max = parseInt(Object.keys(state.entities).reduce(
-				(prev: string, curr: string) => parseInt(curr, 10) > parseInt(prev, 10) ? curr : prev), 10);
-
-			// create a new user with the id set to the max + 1
-			let newPayload = Object.assign({}, payload, { id: max + 1 });
+			let newPayload = Object.assign({}, payload, { id: generate() });
 			return Object.assign({}, state, {
 				entities: Object.assign({}, state.entities, {
 					[newPayload.id]: newPayload
@@ -115,12 +129,25 @@ export const getUsers = (userIds: string[]) =>
 		userIds.map((id: string) =>
 			entities[id]));
 
+/**
+ * Get all the users in a list
+ * @type {Observable<User[]>}
+ */
 export const getAllUsers = () =>
 	(state$: Observable < UsersState > ) =>
 	state$
 	.map(state =>
 		state.ids.map(id =>
 			state.entities[id]));
+
+/**
+ * Returns a boolean to show if the users have loaded
+ * @type {Observable<Boolean>}
+ */
+export const hasLoaded = () =>
+	(state$: Observable < UsersState > ) =>
+	state$.select(state =>
+		state.loaded);
 
 /**
  * This returns the entity for the selected user Selected<User>

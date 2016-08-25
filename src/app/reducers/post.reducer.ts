@@ -11,6 +11,7 @@ export interface PostsState extends Selected < Post > {
 	};
 	ids: string[];
 	selected: string;
+	loaded: boolean
 }
 
 /**
@@ -19,8 +20,25 @@ export interface PostsState extends Selected < Post > {
 const initialState: PostsState = {
 	entities: {},
 	ids: [],
-	selected: null
+	selected: null,
+	loaded: false
 };
+
+/**
+ * Unnecessary code used to supplement the shortcomings of the json service we use
+ */
+let ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+let ID_LENGTH = 4;
+
+let generate = function() {
+	let rtn = '';
+	for (let i = 0; i < ID_LENGTH; i++) {
+		rtn += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
+	}
+	return rtn;
+};
+
 
 /**
  * Posts Reducer.  This is used for updating the state of the posts when there is a post related action 
@@ -40,19 +58,15 @@ export default function POST_REDUCERS(state: Selected < Post > = initialState, {
 
 			return Object.assign({}, state, {
 				entities: Object.assign({}, state.entities, newEntities),
-				ids: [...state.ids, ...newPosts.map((post: Post) => post.id)]
+				ids: [...state.ids, ...newPosts.map((post: Post) => post.id)],
+				loaded: true
 			});
 
 			/**
-			 * Creates a new post and sets its id to the maxId + 1
+			 * Creates a new post and sets its id to a guid
 			 */
 		case PostActions.CREATE_POST_COMPLETE:
-			// get the max id cause our service can't 
-			let max = parseInt(Object.keys(state.entities).reduce(
-				(prev: string, curr: string) => parseInt(curr, 10) > parseInt(prev, 10) ? curr : prev), 10);
-
-			// create a new comment with the id set to the max + 1
-			let newPayload = Object.assign({}, payload, { id: max + 1 });
+			let newPayload = Object.assign({}, payload, { id: generate() });
 			return Object.assign({}, state, {
 				entities: Object.assign({}, state.entities, {
 					[newPayload.id]: newPayload
@@ -131,6 +145,10 @@ export const getSelectedPost = () =>
 	(state$: Observable < PostsState > ) =>
 	< Observable < Post >> state$.let(getSelected < Post > ());
 
+export const hasLoaded = () =>
+	(state$: Observable < PostsState > ) =>
+	state$.select(state =>
+		state.loaded);
 
 /**
  * This selector will grab the all the posts for a particular user and filter the list based on them

@@ -8,6 +8,8 @@ import {
 	UserDetailPage,
 	UserListPage
 } from './pages/index';
+import { PostGuard } from './posts/index';
+import { UserGuard } from './users/index';
 
 const routes: Routes = [{
 		path: '',
@@ -15,16 +17,25 @@ const routes: Routes = [{
 		redirectTo: '/users'
 	},
 
-	{ component: PostCreatePage, path: 'posts/create' },
-	{ component: PostDetailPage, path: 'posts/:id' },
+	{ component: PostCreatePage, path: 'posts/create' }, {
+		component: PostDetailPage,
+		path: 'posts/:id',
+		canActivate: [PostGuard]
+	},
 	{ component: PostListPage, path: 'posts' },
 
 	{ component: UserListPage, path: 'users' },
-	{ component: UserCreatePage, path: 'users/create' },
-	{ component: UserDetailPage, path: 'users/:id' }
+	{ component: UserCreatePage, path: 'users/create' }, {
+		component: UserDetailPage,
+		path: 'users/:id',
+		canActivate: [UserGuard]
+	}
 ];
 
-export const appRoutingProviders: any[] = [];
+export const appRoutingProviders: any[] = [
+	PostGuard,
+	UserGuard
+];
 
 export const appRoutingDeclarations: any[] = [
 	PostCreatePage,

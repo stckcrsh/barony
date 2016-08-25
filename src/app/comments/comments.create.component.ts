@@ -19,7 +19,7 @@ export class CreateComment {
 	constructor() {}
 
 	public onSubmit() {
-		this.createComment.emit({ comment: Object.assign({}, this.comment, { postId: this.postId }) });
+		this.createComment.emit(Object.assign({}, this.comment, { postId: this.postId }));
 		this.resetForm();
 	}
 

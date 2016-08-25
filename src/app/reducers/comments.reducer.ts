@@ -26,6 +26,21 @@ const initialState: CommentsState = {
 };
 
 /**
+ * Unnecessary code used to supplement the shortcomings of the json service we use
+ */
+let ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+let ID_LENGTH = 4;
+
+let generate = function() {
+	let rtn = '';
+	for (let i = 0; i < ID_LENGTH; i++) {
+		rtn += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
+	}
+	return rtn;
+};
+
+/**
  * Comments Reducer.  This is used for updating the state of the comments when there is a comment related action 
  * @type {Reducer}
  */
@@ -49,11 +64,7 @@ export default function COMMENTS_REDUCER(state = initialState, { type, payload }
 			 * Because our service does not have the ability to create new ids i am generating new ones myself
 			 */
 		case CommentActions.ADD_TO_COMMENTS:
-			// get the max id cause our service can't 
-			let max = Object.keys(state.entities).reduce((prev: string, curr: string) => parseInt(curr, 10) > parseInt(prev, 10) ? curr : prev);
-
-			// create a new comment with the id set to the max + 1
-			let newPayload = Object.assign({}, payload, { id: max + 1 });
+			let newPayload = Object.assign({}, payload, { id: generate() });
 			return Object.assign({}, state, {
 				entities: Object.assign({}, state.entities, {
 					[newPayload.id]: newPayload

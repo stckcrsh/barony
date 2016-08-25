@@ -1,14 +1,22 @@
 import { Observable } from 'rxjs/Observable';
+import '@ngrx/core/add/operator/select';
 
 import { PostActions } from './post.actions';
-import { Post } from './post.model';
-import { Selected, getEntities } from '../../core/store';
+import { Post } from '../posts/shared/index';
+import { Selected, getSelected } from './entityStore';
 
+export interface PostsState extends Selected < Post > {
+	entities: {
+		[id: string]: Post
+	};
+	ids: string[];
+	selected: string;
+}
 
 /**
  * Initial state for this sliver of the store
  */
-const initialState: Selected < Post > = {
+const initialState: PostsState = {
 	entities: {},
 	ids: [],
 	selected: null
@@ -18,7 +26,7 @@ const initialState: Selected < Post > = {
  * Posts Reducer.  This is used for updating the state of the posts when there is a post related action 
  * @type {Reducer}
  */
-export const POST_REDUCERS = (state: Selected < Post > = initialState, { type, payload }) => {
+export default function POST_REDUCERS(state: Selected < Post > = initialState, { type, payload }) {
 	switch (type) {
 
 		/**
@@ -74,28 +82,65 @@ export const POST_REDUCERS = (state: Selected < Post > = initialState, { type, p
 	}
 };
 
+/**
+ * This will return all the entities from a state PostsState
+ * @returns {Observable<{[id:string]:Post}>}
+ */
+export const getPostEntities = () =>
+	(state$: Observable < PostsState > ) =>
+	state$.select(state =>
+		state.entities);
 
 /**
- * Because the data structure is defined within the reducer it is optimal to
- * locate our selector functions at this level. If store is to be thought of
- * as a database, and reducers the tables, selectors can be considered the
- * queries into said database. Remember to keep your selectors small and
- * focused so they can be combined and composed to fit each particular
- * use-case. Word for word from the ngrx example app 
- *  
- * https://github.com/ngrx/example-app/blob/master/src/reducers/books.ts
+ * This will return a single entity from a state PostsState
+ * @returns {Observable<Post>}
  */
+export const getPost = (postId: string) =>
+	(state$: Observable < PostsState > ) =>
+	state$.select(state =>
+		state.entities[postId]);
+
+/**
+ * This returns the Posts with the given ids
+ * @returns {Observable<Post[]>}
+ */
+export const getPosts = (postIds: string[]) =>
+	(state$: Observable < PostsState > ) =>
+	state$
+	.let(getPostEntities())
+	.map(entities =>
+		postIds.map((id: string) =>
+			entities[id]));
+
+/**
+ * This will return all the posts in a list
+ * @type {Observable<Post[]>}
+ */
+export const getAllPosts = () =>
+	(state$: Observable < PostsState > ) =>
+	state$
+	.map(state =>
+		state.ids.map(id =>
+			state.entities[id]));
+
+/**
+ * This returns the entity for the selected post Selected<Post>
+ * @returns {Observable<Post>}
+ */
+export const getSelectedPost = () =>
+	(state$: Observable < PostsState > ) =>
+	< Observable < Post >> state$.let(getSelected < Post > ());
 
 
 /**
  * This selector will grab the all the posts for a particular user and filter the list based on them
  * @returns {Observable<Post[]>}
  */
-export const postsByUserId = (user_id: number) =>
-	(state$: Observable < Selected < Post >> ) => < Observable < Post[] >>
-	state$
-	.let(getEntities < Post > ())
-	.map((entities: Post[]) => entities
-		.filter((post: Post) => {
-			return post.userId === user_id;
-		}));
+export const getPostsByUserId = (userId: string) =>
+	(state$: Observable < PostsState > ) =>
+	state$.map(state =>
+		state.ids
+		.filter(id =>
+			state.entities[id].userId === userId)
+		.map(id =>
+			state.entities[id]));

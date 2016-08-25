@@ -2,15 +2,25 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/let';
 import 'rxjs/add/operator/filter';
+import '@ngrx/core/add/operator/select';
 
+
+import { Comment } from '../comments/shared/index';
 import { CommentActions } from './comments.actions';
-import { Comment } from './comment.model';
-import { EntityStore, getEntities } from '../../core/store';
+import { EntityStore } from './entityStore';
+
+
+export interface CommentsState extends EntityStore < Comment > {
+	entities: {
+		[id: string]: Comment
+	};
+	ids: string[];
+};
 
 /**
  * Initial state for this sliver of the store
  */
-const initialState: EntityStore < Comment > = {
+const initialState: CommentsState = {
 	entities: {},
 	ids: []
 };
@@ -19,7 +29,7 @@ const initialState: EntityStore < Comment > = {
  * Comments Reducer.  This is used for updating the state of the comments when there is a comment related action 
  * @type {Reducer}
  */
-export const COMMENTS_REDUCER = (state = initialState, { type, payload }) => {
+export default function COMMENTS_REDUCER(state = initialState, { type, payload }) {
 	switch (type) {
 
 		/**
@@ -55,28 +65,46 @@ export const COMMENTS_REDUCER = (state = initialState, { type, payload }) => {
 	}
 };
 
+/**
+ * This will return all the entities from a state CommentsState
+ * @returns {Observable<{[id:string]:Comment}>}
+ */
+export const getCommentEntities = () =>
+	(state$: Observable < CommentsState > ) =>
+	state$
+	.select((state: CommentsState) => state.entities);
 
 /**
- * Because the data structure is defined within the reducer it is optimal to
- * locate our selector functions at this level. If store is to be thought of
- * as a database, and reducers the tables, selectors can be considered the
- * queries into said database. Remember to keep your selectors small and
- * focused so they can be combined and composed to fit each particular
- * use-case. Word for word from the ngrx example app 
- *  
- * https://github.com/ngrx/example-app/blob/master/src/reducers/books.ts
+ * This will return a single entity from a state CommentsState
+ * @returns {Observable<Comment>}
  */
+export const getComment = (commentId: string) =>
+	(state$: Observable < CommentsState > ) =>
+	state$
+	.select((state: CommentsState) => state.entities[commentId]);
 
+/**
+ * This returns the entitys for the selected ids
+ * @returns {Observable<Comment[]>}
+ */
+export const getComments = (commentIds: string[]) =>
+	(state$: Observable < CommentsState > ) =>
+	state$
+	.let(getCommentEntities())
+	.map(entities =>
+		commentIds.map((id: string) =>
+			entities[id]));
 
 /**
  * This selector will grab the all the comments for a particular postId and filter the list based on them
  * @returns {Observable<Comment[]>}
  */
-export const commentsByPostId = (post_id: number) =>
-	(state$: Observable < EntityStore < Comment >> ) => < Observable < Comment[] >>
-	state$
-	.let(getEntities < Comment > ())
-	.map((entities: Comment[]) => entities
-		.filter((comment: any) => {
-			return comment.postId === post_id;
-		}));
+export const getCommentsByPostId = (postId: string) =>
+	(state$: Observable < CommentsState > ) =>
+	< Observable < Comment[] >> state$
+	.map(state =>
+		state.ids
+		.filter(id =>
+			state.entities[id].postId === postId)
+		.map(id =>
+			state.entities[id]));

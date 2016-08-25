@@ -1,14 +1,14 @@
 <form (ngSubmit)="onSubmit()" #userForm="ngForm" *ngIf="active">
 	<div class="form-group">
 		<label for="name">Name</label>
-		<input type="text" [(ngModel)]="user.name" class="form-control" ngControl="name" #name="ngForm" required="required">
+		<input type="text" [(ngModel)]="user.name" class="form-control" ngControl="name" #name required="required">
 		<div [hidden]="name.valid || name.pristine" class="alert alert-danger">
 			Name is required
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="alterEgo">User Name</label>
-		<input type="text" [(ngModel)]="user.username" ngControl="username" class="form-control" #username="ngForm" required="required">
+		<input type="text" [(ngModel)]="user.username" ngControl="username" class="form-control" #username required="required">
 		<div [hidden]="username.valid || username.pristine" class="alert alert-danger">
 			User Name is required
 		</div>
@@ -19,7 +19,7 @@
 	</div>
 	<div class="form-group">
 		<label for="alterEgo">Email</label>
-		<input type="email" [(ngModel)]="user.email" ngControl="email" class="form-control" required="required" #email="ngForm">
+		<input type="email" [(ngModel)]="user.email" ngControl="email" class="form-control" required="required" #email>
 		<div [hidden]="email.valid || email.pristine" class="alert alert-danger">
 			Email is required
 		</div>

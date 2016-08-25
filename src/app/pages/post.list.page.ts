@@ -1,31 +1,30 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/let';
 
-import { Post, PostService } from './shared/index';
-import { PostListComponent } from './post.list.component';
-import { PostDetailComponent } from './post.detail.component';
-import { getEntities } from '../core/store';
+import { Post, PostService, PostDetailComponent, PostListComponent } from '../posts/index';
+import { AppStore, getAllPosts } from '../reducers/store';
 
 
 @Component({
 	directives: [PostDetailComponent, PostListComponent],
 	selector: 'posts-main',
-	templateUrl: 'app/posts/post.container.component.html'
+	templateUrl: 'app/pages/post.list.page.html'
 })
 
 /**
  * The Post Container smart component 
  * @usage <posts-main></posts-main>
  */
-export class PostContainerComponent {
+export class PostListPage {
 
 	// Our main stream that we pass to the post list
 	public posts$: Observable < Post[] > ;
 
-	constructor(private postService: PostService, private router: Router) {
-		this.posts$ = this.postService.posts$.let(getEntities < Post > ());
+	constructor(private postService: PostService, private router: Router, private store: Store<AppStore>) {
+		this.posts$ = this.store.let(getAllPosts());
 	}
 
 	/**
@@ -34,6 +33,7 @@ export class PostContainerComponent {
 	 */
 	public selectPost(post: Post) {
 		let link = ['/posts', post.id];
+		this.postService.selectPost(post);
 		this.router.navigate(link);
 	}
 

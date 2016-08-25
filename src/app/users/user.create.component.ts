@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 import { User } from './shared/index';
 
@@ -17,6 +17,9 @@ export class UserCreateComponent {
 	// Output emitter when a user is created
 	@Output('create-user')
 	public createUser = new EventEmitter();
+
+	@Input('disabled')
+	public disabled: boolean = false;
 
 	public user: User = new User();
 	public active: boolean = true;

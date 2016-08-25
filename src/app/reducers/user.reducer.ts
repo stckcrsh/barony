@@ -1,25 +1,35 @@
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/let';
+import '@ngrx/core/add/operator/select';
 
-import { User } from './user.model';
-import { EntityStore, Selected } from '../../core/store';
-import { UserActions } from './user.action';
+import { User } from '../users/shared/index';
+import { Selected, getSelected } from './entityStore';
+import { UserActions } from './user.actions';
 
 /**
  * Initial state implements the Selected<User> interface
  * this is a child of the EntityStore<> Interface that adds
  * in the selected variable
  */
-const initialState: Selected < User > = {
+export interface UsersState extends Selected < User > {
+	entities: {
+		[id: string]: User
+	};
+	ids: string[];
+	selected: string;
+}
+
+const initialState: UsersState = {
 	entities: {},
 	ids: [],
-	selected: 0
+	selected: null
 };
 
 /**
  * Users Reducer.  This is used for updating the state of the users when there is a user related action 
  * @type {Reducer}
  */
-export const USER_REDUCER = (state: EntityStore < User > = initialState, { type, payload }) => {
+export default function USER_REDUCER(state: Selected < User > = initialState, { type, payload }) {
 	switch (type) {
 
 		/**
@@ -37,9 +47,9 @@ export const USER_REDUCER = (state: EntityStore < User > = initialState, { type,
 				ids: [...state.ids, ...newUsers]
 			});
 
-		/**
-		 * Creates a new users and sets its id to the maxId + 1
-		 */
+			/**
+			 * Creates a new users and sets its id to the maxId + 1
+			 */
 		case UserActions.CREATE_USER_COMPLETE:
 			// get the max id cause our service can't 
 			let max = parseInt(Object.keys(state.entities).reduce(
@@ -54,9 +64,9 @@ export const USER_REDUCER = (state: EntityStore < User > = initialState, { type,
 				ids: [...state.ids, newPayload.id]
 			});
 
-		/**
-		 * Updates a current user by changing its value in the entities field
-		 */
+			/**
+			 * Updates a current user by changing its value in the entities field
+			 */
 		case UserActions.UPDATE_USER_COMPLETE:
 			return Object.assign({}, state, {
 				entities: Object.assign({}, state.entities, {
@@ -65,9 +75,9 @@ export const USER_REDUCER = (state: EntityStore < User > = initialState, { type,
 				ids: [...state.ids]
 			});
 
-		/**
-		 * Changes the selected user based on the user that is sent
-		 */
+			/**
+			 * Changes the selected user based on the user that is sent
+			 */
 		case UserActions.SELECT_USER_COMPLETE:
 			return Object.assign({}, state, { selected: payload.id });
 		default:
@@ -75,27 +85,47 @@ export const USER_REDUCER = (state: EntityStore < User > = initialState, { type,
 	}
 };
 
-
 /**
- * This will return all the entities from a state Selected<User>
- * @returns {Observable<User[]>}
+ * This will return all the entities from a state UsersState
+ * @returns {Observable<{[id:string]:User}>}
  */
 export const getUserEntities = () =>
-	(state$: Observable < Selected < User >> ) => < Observable < User[] >> state$
-	.map((state: Selected < User > ) => < User[] > state.ids.map((id: number) => state.entities[id]));
+	(state$: Observable < UsersState > ) =>
+	state$.select(state =>
+		state.entities);
 
 /**
  * This will return a single entity from a state Selected<User>
  * @returns {Observable<User>}
  */
-export const getUserEntity = (userId: number) =>
-	(state$: Observable < Selected < User >> ) => < Observable < User >> state$
-	.map((state: Selected < User > ) => < User > state.entities[userId]);
+export const getUser = (userId: string) =>
+	(state$: Observable < UsersState > ) =>
+	state$.select(state =>
+		state.entities[userId]);
+
+/**
+ * This returns the Users with the given ids
+ * @returns {Observable<User[]>}
+ */
+export const getUsers = (userIds: string[]) =>
+	(state$: Observable < UsersState > ) =>
+	state$
+	.let(getUserEntities())
+	.map(entities =>
+		userIds.map((id: string) =>
+			entities[id]));
+
+export const getAllUsers = () =>
+	(state$: Observable < UsersState > ) =>
+	state$
+	.map(state =>
+		state.ids.map(id =>
+			state.entities[id]));
 
 /**
  * This returns the entity for the selected user Selected<User>
  * @returns {Observable<User>}
  */
 export const getSelectedUser = () =>
-	(state$: Observable < Selected < User >> ) => < Observable < User >> state$
-	.map((state: Selected < User > ) => < User > state.entities[state.selected]);
+	(state$: Observable < UsersState > ) =>
+	state$.let(getSelected < User > ());

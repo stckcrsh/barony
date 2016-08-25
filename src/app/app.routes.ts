@@ -1,18 +1,38 @@
-import { provideRouter, RouterConfig } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
-import { PostRoutes } from './posts/index';
-import { UserRoutes } from './users/index';
+import {
+	PostListPage,
+	PostDetailPage,
+	PostCreatePage,
+	UserCreatePage,
+	UserDetailPage,
+	UserListPage
+} from './pages/index';
 
-const routes: RouterConfig = [
-	{
+const routes: Routes = [{
 		path: '',
 		pathMatch: 'full',
 		redirectTo: '/users'
 	},
-	...PostRoutes,
-	...UserRoutes
+
+	{ component: PostCreatePage, path: 'posts/create' },
+	{ component: PostDetailPage, path: 'posts/:id' },
+	{ component: PostListPage, path: 'posts' },
+
+	{ component: UserListPage, path: 'users' },
+	{ component: UserCreatePage, path: 'users/create' },
+	{ component: UserDetailPage, path: 'users/:id' }
 ];
 
-export const APP_ROUTER_PROVIDERS = [
-	provideRouter(routes)
+export const appRoutingProviders: any[] = [];
+
+export const appRoutingDeclarations: any[] = [
+	PostCreatePage,
+	PostDetailPage,
+	PostListPage,
+	UserCreatePage,
+	UserDetailPage,
+	UserListPage
 ];
+
+export const routing = RouterModule.forRoot(routes);

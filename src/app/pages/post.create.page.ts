@@ -1,8 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { PostCreateComponent } from './post.create.component';
-import { Post, PostService } from './shared/index';
+import { PostCreateComponent, Post, PostService } from '../posts/index';
 
 @Component({
 	directives: [PostCreateComponent],
@@ -11,7 +10,7 @@ import { Post, PostService } from './shared/index';
 		<post-create (create-post)="createPost($event)"></post-create>
 	`
 })
-export class PostCreateContainer implements OnDestroy {
+export class PostCreatePage implements OnDestroy {
 
 	// The subscription object used to clean up our subscription on destroy
 	public subscription: any;

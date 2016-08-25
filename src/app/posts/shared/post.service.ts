@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/Rx';
 
-import { AppStore, Selected } from '../../core/store';
+import { AppStore, PostActions } from '../../reducers/store';
 import { Post } from './post.model';
-import { PostActions } from './post.actions';
 import { BASEURL } from '../../core/constants';
 
 const POSTS = 'posts/';
@@ -17,10 +15,6 @@ const POSTS = 'posts/';
 	 * As well it will run the http requests for all the posts pieces (loading, creating, updating)
 	 */
 export class PostService {
-	/**
-	 * This is the main Observable that houses the posts slice of the state
-	 */
-	public posts$: Observable < Selected < Post >> ;
 
 	/**
 	 * Loads our dependencies
@@ -29,7 +23,6 @@ export class PostService {
 	 * @param {PostActions} postActions Post Actions
 	 */
 	constructor(private http: Http, private store: Store < AppStore > , private postActions: PostActions) {
-		this.posts$ = < Observable < Selected < Post >>> store.select('posts');
 		this.getAll();
 	}
 
@@ -88,5 +81,9 @@ export class PostService {
 
 		return result$;
 
+	}
+
+	public selectPost(post: Post) {
+		this.store.dispatch(this.postActions.selectPost(post));
 	}
 }

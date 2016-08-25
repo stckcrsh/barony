@@ -4,7 +4,7 @@
 	<form (ngSubmit)="onSubmit()" #postForm="ngForm">
 		<div class="form-group">
 			<label for="alterEgo">User ID</label>
-			<input type="text" [(ngModel)]="post.userId" ngControl="userId" class="form-control" required #postUserId="ngForm">
+			<input type="text" [(ngModel)]="post.userId" ngControl="userId" class="form-control" required #postUserId>
 			<div [hidden]="postUserId.valid || postUserId.pristine" class="alert alert-danger">
 				User ID cannot be blank
 			</div>

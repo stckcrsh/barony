@@ -2,24 +2,27 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/let';
-import 'rxjs/add/operator/switch';
+import 'rxjs/add/operator/take';
+import { Store } from '@ngrx/store';
 
-import { Post, PostService } from './shared/index';
-import { PostDetailComponent } from './post.detail.component';
-import { getEntity } from '../core/store';
-import { CommentsContainer } from '../comments/index';
-import { User, UserSmallDetailComponent } from '../users/index';
-import { UserService } from '../users/shared/user.service';
+import { Post, PostService, PostDetailComponent } from '../posts/index';
+import { CommentsList, CreateComment, CommentsService, Comment } from '../comments/index';
+import { AppStore, getSelectedPost, getUserFromSelectedPost } from '../reducers/store';
+import { UserSmallDetailComponent, User, UserService } from '../users/index';
 
 @Component({
-	directives: [PostDetailComponent, CommentsContainer, UserSmallDetailComponent],
+	directives: [PostDetailComponent, UserSmallDetailComponent, CommentsList, CreateComment],
 	selector: 'post-maintain',
 	template: `
 		<h4><small><a (click)="goBack()">&lt; BACK</a></small></h4>
 		<div class="row">
 			<user-small-detail [user]="user$ | async" (user-changed)="userChanged($event)" ></user-small-detail>
 			<post-detail [post]="post$ | async" (back)="goBack()" (change-post)="postChanged($event)"></post-detail>
-			<sa-comments-container [post-id]="postId$ | async" ></sa-comments-container>
+			<div class="container">
+				<h3>Comments</h3>
+				<sa-comments-list [comments]="comments$ | async"></sa-comments-list>
+				<sa-comment-create [post-id]="postId$ | async" (create-comment)="createComment($event)"></sa-comment-create>
+			</div>
 		</div>
 	`,
 
@@ -30,16 +33,17 @@ import { UserService } from '../users/shared/user.service';
  * Router page
  * @usage <post-maintain></post-maintain>
  */
-export class PostMaintainComponent {
+export class PostDetailPage {
 
 	// stream for the selected post
 	public post$: Observable < Post > ;
+	public postId$: Observable < String > ;
 
 	// stream for the user for this post
 	public user$: Observable < User > ;
 
-	// stream for the postId mapped from the post$
-	public postId$: Observable < number > ;
+	// list of the comments for the selected post
+	public comments$: Observable < Comment[] > ;
 
 	/**
 	 * Setup the initial values. 
@@ -51,13 +55,15 @@ export class PostMaintainComponent {
 	constructor(
 		private userService: UserService,
 		private postService: PostService,
-		private route: ActivatedRoute
+		private commentsService: CommentsService,
+		private route: ActivatedRoute,
+		private store: Store < AppStore >
 	) {
 
-		this.post$ = this.route.params.map((params: any) => this.postService.posts$.let(getEntity < Post > (parseInt(params.id, 10)))).switch();
-		this.user$ = this.post$.map(post => this.userService.users$.let(getEntity < User > (post.userId))).switch();
-
-		this.postId$ = this.post$.map(post => post.id);
+		this.post$ = this.store.let(getSelectedPost());
+		this.postId$ = this.post$.map(post =>
+			post.id);
+		this.user$ = this.store.let(getUserFromSelectedPost());
 	}
 
 	// event handler for the back event
@@ -77,6 +83,10 @@ export class PostMaintainComponent {
 
 	public save(post: Post) {
 		console.log(typeof post);
+	}
+
+	public createComment(comment: Comment) {
+		this.commentsService.createComment(comment);
 	}
 
 }

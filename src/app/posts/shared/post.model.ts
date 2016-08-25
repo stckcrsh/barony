@@ -1,6 +1,6 @@
 export class Post {
-	public userId: number;
-	public id: number;
+	public userId: string;
+	public id: string;
 	public title: string;
 	public body: string;
 
@@ -8,7 +8,7 @@ export class Post {
 		return this.userId;
 	}
 
-	set UserId(userId: number) {
+	set UserId(userId: string) {
 		this.userId = userId;
 	}
 
@@ -16,7 +16,7 @@ export class Post {
 		return this.id;
 	}
 
-	set Id(id: number) {
+	set Id(id: string) {
 		this.id = id;
 	}
 

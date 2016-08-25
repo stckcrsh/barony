@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 
-import { Post } from './post.model';
+import { Post } from '../posts/index';
 
 @Injectable()
 	/**

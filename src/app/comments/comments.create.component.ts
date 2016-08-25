@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 import { Comment } from './shared/index';
 
@@ -7,6 +7,9 @@ import { Comment } from './shared/index';
 	templateUrl: 'app/comments/comments.create.component.html'
 })
 export class CreateComment {
+	@Input('post-id')
+	public postId: string;
+
 	@Output('create-comment')
 	public createComment = new EventEmitter();
 
@@ -16,7 +19,7 @@ export class CreateComment {
 	constructor() {}
 
 	public onSubmit() {
-		this.createComment.emit({comment: this.comment});
+		this.createComment.emit({ comment: Object.assign({}, this.comment, { postId: this.postId }) });
 		this.resetForm();
 	}
 

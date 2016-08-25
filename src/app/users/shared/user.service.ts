@@ -4,8 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import { UserActions } from './user.action';
-import { AppStore, Selected } from '../../core/store';
+import { AppStore, UserActions } from '../../reducers/store';
 import { User } from './user.model';
 
 const BASE_URL = 'http://jsonplaceholder.typicode.com/';
@@ -19,18 +18,12 @@ const USERS_URL = 'users/';
 export class UserService {
 
 	/**
-	 * This is the main Observable that houses the users slice of the state
-	 */
-	public users$: Observable < Selected < User >> ;
-
-	/**
 	 * Loads our dependencies
 	 * @param {Http}        http        Http Provider
 	 * @param {Store<AppStore>}          store @ngrx store
 	 * @param {UserActions} userActions UserActions base class
 	 */
 	constructor(private http: Http, private store: Store < AppStore > , private userActions: UserActions) {
-		this.users$ = < Observable < Selected < User >>> store.select('users');
 		this.getUsers();
 	}
 

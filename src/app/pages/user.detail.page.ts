@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/let';
 
-import { PostListComponent, PostService, Post, postsByUserId } from '../posts/index';
-import { UserService, User } from './shared/index';
-import { UserSmallDetailComponent } from './user.smallDetail.component';
-import { getEntity } from '../core/store';
+import { PostListComponent, Post, PostService } from '../posts/index';
+import { User, UserSmallDetailComponent, UserService } from '../users/index';
+import { AppStore, getSelectedUser, getPostsBySelectedUser } from '../reducers/store';
 
 @Component({
 	directives: [PostListComponent, UserSmallDetailComponent],
@@ -24,7 +24,7 @@ import { getEntity } from '../core/store';
 	`
 })
 
-export class UserDetail {
+export class UserDetailPage {
 	public user$: Observable < User > ;
 	public posts$: Observable < Post[] > ;
 
@@ -35,9 +35,15 @@ export class UserDetail {
 	 * @param {PostService}    private postService The post service
 	 * @param {ActivatedRoute} private route       Activated Route
 	 */
-	constructor(private router: Router, private userService: UserService, private postService: PostService, private route: ActivatedRoute) {
-		this.user$ = this.route.params.map((params: any) => this.userService.users$.let(getEntity < User > (parseInt(params.id, 10)))).switch();
-		this.posts$ = this.user$.map((user: User) => this.postService.posts$.let(postsByUserId(user.id))).switch();
+	constructor(
+		private router: Router,
+		private userService: UserService,
+		private postService: PostService,
+		private route: ActivatedRoute,
+		private store: Store < AppStore >
+	) {
+		this.user$ = this.store.let(getSelectedUser());
+		this.posts$ = this.store.let(getPostsBySelectedUser());
 	}
 
 	/**
@@ -50,6 +56,7 @@ export class UserDetail {
 
 	public selectPost(post: Post) {
 		let link = ['/posts', post.id];
+		this.postService.selectPost(post);
 		this.router.navigate(link);
 	}
 

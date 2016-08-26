@@ -22,11 +22,7 @@ export class CommentsService {
 	 * @param {Http}            Http Provider
 	 * @param {Store<AppStore>} @ngrx store
 	 */
-	constructor(private http: Http, private store: Store < AppStore > , private commentsActions: CommentActions) {
-		this.http = http;
-
-		this.getComments();
-	}
+	constructor(private http: Http, private store: Store < AppStore > , private commentsActions: CommentActions) {}
 
 	/**
 	 * Gets all comments then sends the loaded comments action to the store
@@ -43,7 +39,7 @@ export class CommentsService {
 	}
 
 	/**
-	 * Creates a new comment then sends the create comment action to the store
+	 * Creates a new comment then sends the create comment success action to the store
 	 * @param  {number}     postId  The post that this comment will be attached to
 	 * @param  {Comment}    comment The comment that will be created
 	 * @return {Observable<Comment>}         returns an Observable that streams single comments
@@ -53,9 +49,13 @@ export class CommentsService {
 			.map(res => {
 				let newComment = res.json();
 				return Object.assign({}, comment, newComment);
-			})
-			.map(payload => this.commentsActions.addToCollection(payload));
-		result$.subscribe(action => this.store.dispatch(action));
+			});
+
+		result$
+			.map(payload =>
+				this.commentsActions.addToCollectionSuccess(payload))
+			.subscribe(action =>
+				this.store.dispatch(action));
 		return result$;
 	}
 }

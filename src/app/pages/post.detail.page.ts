@@ -8,11 +8,12 @@ import { Store } from '@ngrx/store';
 
 import { Post, PostService, PostDetailComponent } from '../posts/index';
 import { CommentsList, CreateComment, CommentsService, Comment } from '../comments/index';
-import { AppStore, getPost, getUser, getCommentsByPostId } from '../reducers/store';
+import { AppStore, getPost, getUser, getCommentsByPostId, CommentActions } from '../reducers/store';
 import { UserSmallDetailComponent, User, UserService } from '../users/index';
 
 @Component({
 	directives: [PostDetailComponent, UserSmallDetailComponent, CommentsList, CreateComment],
+	providers: [CommentActions],
 	selector: 'post-maintain',
 	template: `
 		<h4><small><a (click)="goBack()">&lt; BACK</a></small></h4>
@@ -57,6 +58,7 @@ export class PostDetailPage {
 		private userService: UserService,
 		private postService: PostService,
 		private commentsService: CommentsService,
+		private commentActions: CommentActions,
 		private route: ActivatedRoute,
 		private store: Store < AppStore >
 	) {
@@ -86,7 +88,7 @@ export class PostDetailPage {
 	}
 
 	public createComment(comment: Comment) {
-		this.commentsService.createComment(comment);
+		this.store.dispatch(this.commentActions.addToCollection(comment));
 	}
 
 }

@@ -16,10 +16,11 @@ export class UserActions {
 	public static LOAD_USERS_COMPLETE = '[USER] Load Users Complete';
 
 	/**
-	 * Action: Create User
+	 * Action: Create User and the corresponding success
 	 * @type {String}
 	 */
-	public static CREATE_USER_COMPLETE = '[USER] Create User Complete';
+	public static CREATE_USER = '[USER] Create User';
+	public static CREATE_USER_SUCCESS = '[USER] Create User Success';
 
 	/**
 	 * Action: Update User
@@ -46,10 +47,19 @@ export class UserActions {
 	/**
 	 * Generates a new action to create a new user
 	 * @param  {User}   user User to be created
-	 * @return {Action}      CREATE_USER_COMPLETE
+	 * @return {Action}      CREATE_USER
 	 */
 	public createUser(user: User): Action {
-		return { payload: user, type: UserActions.CREATE_USER_COMPLETE };
+		return { payload: user, type: UserActions.CREATE_USER };
+	};
+
+	/**
+	 * Generates a new action to show that a user was created successfully
+	 * @param  {User}   user User to be created
+	 * @return {Action}      CREATE_USER_SUCCESS
+	 */
+	public createUserSuccess(user: User): Action {
+		return { payload: user, type: UserActions.CREATE_USER_SUCCESS };
 	};
 
 	/**

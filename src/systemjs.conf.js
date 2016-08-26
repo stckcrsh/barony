@@ -45,7 +45,8 @@
 		'@angular/router',
 		'lodash',
 		'@ngrx/core',
-		'@ngrx/store'
+		'@ngrx/store',
+		'@ngrx/effects'
 	];
 
 	// Add package entries for angular packages

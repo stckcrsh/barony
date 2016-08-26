@@ -17,7 +17,7 @@ export interface UsersState extends Selected < User > {
 	};
 	ids: string[];
 	selected: string;
-	loaded: boolean
+	loaded: boolean;
 }
 
 const initialState: UsersState = {
@@ -69,7 +69,7 @@ export default function USER_REDUCER(state: Selected < User > = initialState, { 
 			/**
 			 * Creates a new users and sets its id to a guid
 			 */
-		case UserActions.CREATE_USER_COMPLETE:
+		case UserActions.CREATE_USER_SUCCESS:
 			let newPayload = Object.assign({}, payload, { id: generate() });
 			return Object.assign({}, state, {
 				entities: Object.assign({}, state.entities, {

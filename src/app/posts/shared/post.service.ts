@@ -22,9 +22,7 @@ export class PostService {
 	 * @param {Store<AppStore>}           store Ngrx Store
 	 * @param {PostActions} postActions Post Actions
 	 */
-	constructor(private http: Http, private store: Store < AppStore > , private postActions: PostActions) {
-		this.getAll();
-	}
+	constructor(private http: Http, private store: Store < AppStore > , private postActions: PostActions) {}
 
 	/**
 	 * Sends out an http reqeust to gather all the posts. Then pushes that up to the store
@@ -54,8 +52,10 @@ export class PostService {
 			.map(res => res.json());
 
 		result$
-		.map(payload => this.postActions.createPost(Object.assign({}, post)))
-		.subscribe(action => this.store.dispatch(action));
+		.map(payload =>
+			this.postActions.createPost(Object.assign({}, post)))
+		.subscribe(action =>
+			this.store.dispatch(action));
 
 		return result$;
 

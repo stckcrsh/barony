@@ -11,7 +11,7 @@ export interface PostsState extends Selected < Post > {
 	};
 	ids: string[];
 	selected: string;
-	loaded: boolean
+	loaded: boolean;
 }
 
 /**
@@ -65,7 +65,7 @@ export default function POST_REDUCERS(state: Selected < Post > = initialState, {
 			/**
 			 * Creates a new post and sets its id to a guid
 			 */
-		case PostActions.CREATE_POST_COMPLETE:
+		case PostActions.CREATE_POST_SUCCESS:
 			let newPayload = Object.assign({}, payload, { id: generate() });
 			return Object.assign({}, state, {
 				entities: Object.assign({}, state.entities, {

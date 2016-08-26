@@ -23,9 +23,7 @@ export class UserService {
 	 * @param {Store<AppStore>}          store @ngrx store
 	 * @param {UserActions} userActions UserActions base class
 	 */
-	constructor(private http: Http, private store: Store < AppStore > , private userActions: UserActions) {
-		this.getUsers();
-	}
+	constructor(private http: Http, private store: Store < AppStore > , private userActions: UserActions) { }
 
 	/**
 	 * Sends out an http reqeust to gather all the users. Then pushes that up to the store
@@ -60,7 +58,7 @@ export class UserService {
 	}
 
 	/**
-	 * Creates a new user by making an http request and on cussess passes it on
+	 * Creates a new user by making an http request and on success passes it on
 	 * to the store
 	 * @param  {User}       user User to be created
 	 * @return {Observable}      User that was created
@@ -70,7 +68,7 @@ export class UserService {
 			.map(res => res.json());
 
 		result$
-		.map(payload => this.userActions.createUser(Object.assign({}, user, payload)))
+		.map(payload => this.userActions.createUserSuccess(Object.assign({}, user, payload)))
 		.subscribe(action => this.store.dispatch(action));
 
 		return result$;

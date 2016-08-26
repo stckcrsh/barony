@@ -14,13 +14,15 @@ export class CommentActions {
 	 * Action: Loading comments
 	 * @type {String}
 	 */
+	public static GET_COMMENTS_LOADING = '[COMMENT] Start Load';
 	public static GET_COMMENTS = '[COMMENT] Loading Complete';
 
 	/**
-	 * Action: Adding the comment to the comments store
+	 * Action: Adding the comment to the comments store and the corresponding success
 	 * @type {String}
 	 */
-	public static ADD_TO_COMMENTS = '[COMMENT] Add to Comments';
+	public static ADD_TO_COMMENTS = '[COMMENT] Create Comment';
+	public static ADD_TO_COMMENTS_SUCCESS = '[COMMENT] Create Comment Success';
 
 	/**
 	 * Generates a new action to load in the new comments
@@ -31,6 +33,20 @@ export class CommentActions {
 		return {
 			payload: comments,
 			type: CommentActions.GET_COMMENTS
+		};
+	};
+
+
+
+	/**
+	 * Generates a new action to add the comment to the store
+	 * @param  {Comment} comment Comment that will be added
+	 * @return {Action}          ADD_TO_COMMENTS_SUCCESS action
+	 */
+	public addToCollectionSuccess(comment: Comment): Action {
+		return {
+			payload: comment,
+			type: CommentActions.ADD_TO_COMMENTS_SUCCESS
 		};
 	};
 

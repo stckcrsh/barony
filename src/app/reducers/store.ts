@@ -170,7 +170,7 @@ export function getSelectedUser() {
 	return compose(fromUsers.getSelectedUser(), getUsersState());
 }
 
-export function hasUsersLoaded(){
+export function hasUsersLoaded() {
 	return compose(fromUsers.hasLoaded(), getUsersState());
 }
 
@@ -182,6 +182,9 @@ export function getUserFromSelectedPost() {
 
 }
 
-export { CommentActions } from './comments.actions';
-export { PostActions } from './post.actions';
-export { UserActions } from './user.actions';
+export { CommentActions }
+from './comments.actions';
+export { PostActions }
+from './post.actions';
+export { UserActions }
+from './user.actions';

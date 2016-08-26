@@ -16,10 +16,11 @@ export class PostActions {
 	public static LOAD_POSTS_COMPLETE = '[POSTS] Load Complete';
 
 	/**
-	 * Action: Create Post
+	 * Action: Create Post and the create post success messages
 	 * @type {String}
 	 */
-	public static CREATE_POST_COMPLETE = '[POSTS] Create Complete';
+	public static CREATE_POST = '[POSTS] Create';
+	public static CREATE_POST_SUCCESS = '[POSTS] Create Success ';
 
 	/**
 	 * Action: Update Post
@@ -44,14 +45,22 @@ export class PostActions {
 	};
 
 	/**
-	 * Generates a new action to create a new post
+	 * Generates a new action to create a new post in the reducer
 	 * @param  {Post} post Post to be created
-	 * @return {Action}             CREATE_POST_COMPLETE action
+	 * @return {Action}             CREATE_POST_SUCCESS action
 	 */
 	public createPost(post: Post): Action {
-		return { payload: post, type: PostActions.CREATE_POST_COMPLETE };
+		return { payload: post, type: PostActions.CREATE_POST_SUCCESS };
 	};
 
+	/**
+	 * Generates a new action to start the create post effect
+	 * @param  {Post} post Post to be created
+	 * @return {Action}             CREATE_POST action
+	 */
+	public loadPost(post: Post): Action {
+		return { payload: post, type: PostActions.CREATE_POST };
+	};
 
 	/**
 	 * Generates a new action to update a post

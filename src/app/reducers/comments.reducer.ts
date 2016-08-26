@@ -63,7 +63,7 @@ export default function COMMENTS_REDUCER(state = initialState, { type, payload }
 			 * Adding a comment to the store
 			 * Because our service does not have the ability to create new ids i am generating new ones myself
 			 */
-		case CommentActions.ADD_TO_COMMENTS:
+		case CommentActions.ADD_TO_COMMENTS_SUCCESS:
 			let newPayload = Object.assign({}, payload, { id: generate() });
 			return Object.assign({}, state, {
 				entities: Object.assign({}, state.entities, {

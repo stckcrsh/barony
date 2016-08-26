@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { Header, Footer } from './tu-components/index';
 import { NavBar } from './navbar.component';
+
 import { UserService } from './users/shared/index';
 import { CommentsService } from './comments/shared/index';
 import { PostService } from './posts/shared/index';
@@ -22,6 +23,9 @@ import { PostService } from './posts/shared/index';
 })
 
 export class AppComponent {
-	constructor(userService: UserService, postService: PostService, commentsService: CommentsService){}
+	constructor(
+		userService: UserService,
+		postService: PostService,
+		commentsService: CommentsService) {}
 
 }

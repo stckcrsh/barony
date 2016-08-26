@@ -1,68 +1,54 @@
-import {
-	Router,
-	RouterConfig,
-	ActivatedRoute,
-	RouterOutletMap,
-	UrlSerializer,
-	DefaultUrlSerializer
-} from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { async, TestBed, ComponentFixture } from '@angular/core/testing';
+import { provideRoutes, Routes, RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
+import { HttpModule } from '@angular/http';
 
-import {
-	async,
-	inject,
-	addProviders,
-	ComponentFixture
-} from '@angular/core/testing';
-
-import { TestComponentBuilder } from '@angular/compiler/testing';
-import { Component, ComponentResolver, Injector } from '@angular/core';
-import { Location, LocationStrategy } from '@angular/common';
-import { SpyLocation } from '@angular/common/testing';
-import { PostContainerComponent } from './posts/index';
 import { AppComponent } from './app.component';
 
+import { UserService } from './users/shared/index';
+import { CommentsService } from './comments/shared/index';
+import { PostService } from './posts/shared/index';
+import { store, UserActions, PostActions, CommentActions } from './reducers/store';
+
+
 @Component({
-	directives: [AppComponent],
-	selector: 'as-test',
-	template: '<div><tu-app></tu-app></div>'
+	selector: 'sa-test-cmp',
+	template: '<div class="title">Hello test</div>'
 })
-class TestComponent {}
-let config: RouterConfig = [
-	{ component: PostContainerComponent, path: '' },
+class TestRouterComponent {
+
+}
+
+let config: Routes = [
+	{ path: '', component: TestRouterComponent }
 ];
 
-// TODO: Use ROUTER_FAKE_PROVIDERS when it's available
 describe('AppComponent', () => {
 	beforeEach(() => {
-		addProviders([
-			RouterOutletMap,
-			{ provide: LocationStrategy, useClass: SpyLocation },
-			{ provide: UrlSerializer, useClass: DefaultUrlSerializer },
-			{ provide: Location, useClass: SpyLocation }, {
-				deps: [ComponentResolver, UrlSerializer, RouterOutletMap, Location, Injector],
-				provide: Router,
-				useFactory: (
-					resolver: ComponentResolver,
-					urlSerializer: UrlSerializer,
-					outletMap: RouterOutletMap,
-					location: Location,
-					injector: Injector) => {
-					const r = new Router(TestComponent, resolver, urlSerializer, outletMap, location, injector, config);
-					return r;
-				}
-			},
-			{ deps: [Router], provide: ActivatedRoute, useFactory: (r: Router) => r.routerState.root },
-		]);
-	});
+		TestBed.configureTestingModule({
+			declarations: [
+				TestRouterComponent,
+				AppComponent
+			],
+			imports: [RouterTestingModule, RouterModule, HttpModule, store],
+			providers: [
+				provideRoutes(config),
+				UserService,
+				CommentsService,
+				PostService,
 
-	it('should have brand Angular 2 Starter', async(inject([TestComponentBuilder],
-		(tsb: TestComponentBuilder) => {
-			tsb.createAsync(TestComponent).then((fixture: ComponentFixture < TestComponent > ) => {
-				fixture.detectChanges();
-				let compiled = fixture.debugElement.nativeElement;
-				expect(compiled).toBeDefined();
-				expect(compiled.querySelector('tu-header #applicationName'))
-					.toContainText('Toolbox');
-			});
-		})));
+				UserActions, CommentActions, PostActions
+			]
+		});
+	});
+	it('should have a title Hello world', async(() => {
+		TestBed.compileComponents().then(() => {
+			let fixture: ComponentFixture < AppComponent > ;
+			fixture = TestBed.createComponent(AppComponent);
+			fixture.detectChanges();
+			let compiled = fixture.debugElement.nativeElement;
+			expect(compiled).toBeDefined();
+		});
+	}));
 });

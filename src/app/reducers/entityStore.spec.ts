@@ -6,13 +6,12 @@ import {
 	getEntity,
 	getEntities,
 	getSelected
-} from './store';
+} from './entityStore';
 
 // Interface to use for testing of the EntityStore/Selected generics
 interface Named {
 	name: string;
 };
-
 
 /**
  * Describes all the store functions 
@@ -22,7 +21,7 @@ interface Named {
  */
 describe('Store Functions', () => {
 
-	let entities: BehaviorSubject < Selected < Named >> ;
+	let entities: BehaviorSubject < Selected < Named > > ;
 	let entity1: Named = { name: 'one' };
 	let entity2: Named = { name: 'two' };
 	let entity3: Named = { name: 'three' };
@@ -35,14 +34,14 @@ describe('Store Functions', () => {
 				'2': entity2,
 				'3': entity3
 			},
-			ids: [1, 2, 3],
-			selected: 3
+			ids: ['1', '2', '3'],
+			selected: '3'
 		});
 	});
 
 	// testing the getEntity function
 	it('"getEntity" should return a single entity when we get an entity', () => {
-		entities.let(getEntity < Named > (2)).subscribe(
+		entities.let(getEntity < Named > ('2')).subscribe(
 			(item: Named) => {
 				expect(item).toBe(entity2);
 			}

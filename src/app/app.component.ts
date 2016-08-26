@@ -10,7 +10,6 @@ import { PostService } from './posts/shared/index';
 @Component({
 
 	directives: [Header, Footer, NavBar],
-	providers: [UserService, PostService, CommentsService],
 	selector: 'tu-app',
 	template: `
 	<tu-header></tu-header>

@@ -22,6 +22,8 @@ import { PostService } from './posts/shared/index';
 })
 
 export class AppComponent {
+
+	// initialize our services when the app has been started
 	constructor(
 		userService: UserService,
 		postService: PostService,

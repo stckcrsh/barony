@@ -11,6 +11,10 @@ import {
 import { PostGuard } from './posts/index';
 import { UserGuard } from './users/index';
 
+
+/**
+ * All the routes for our application
+ */
 const routes: Routes = [{
 		path: '',
 		pathMatch: 'full',
@@ -32,11 +36,18 @@ const routes: Routes = [{
 	}
 ];
 
+/**
+ * A listing of all the route providers (Guards and such)
+ * @type {any[]}
+ */
 export const appRoutingProviders: any[] = [
 	PostGuard,
 	UserGuard
 ];
 
+/**
+ * A list of all the component declarations
+ */
 export const appRoutingDeclarations: any[] = [
 	PostCreatePage,
 	PostDetailPage,

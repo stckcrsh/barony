@@ -83,10 +83,7 @@ export class PostDetailPage {
 		this.userService.updateUser(user);
 	}
 
-	public save(post: Post) {
-		console.log(typeof post);
-	}
-
+	// event handler for the create-comment event
 	public createComment(comment: Comment) {
 		this.store.dispatch(this.commentActions.addToCollection(comment));
 	}

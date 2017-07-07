@@ -6,10 +6,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 
-import { UserService } from './users/shared/index';
-import { CommentsService } from './comments/shared/index';
-import { PostService } from './posts/shared/index';
-import { store, UserActions, PostActions, CommentActions } from './reducers/store';
+import { store} from './reducers/store';
 
 
 @Component({
@@ -34,11 +31,6 @@ describe('AppComponent', () => {
 			imports: [RouterTestingModule, RouterModule, HttpModule, store],
 			providers: [
 				provideRoutes(config),
-				UserService,
-				CommentsService,
-				PostService,
-
-				UserActions, CommentActions, PostActions
 			]
 		});
 	});

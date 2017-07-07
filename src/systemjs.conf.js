@@ -46,7 +46,8 @@
 		'lodash',
 		'@ngrx/core',
 		'@ngrx/store',
-		'@ngrx/effects'
+		'@ngrx/store-devtools',
+		'@ngrx/store-log-monitor'
 	];
 
 	// Add package entries for angular packages

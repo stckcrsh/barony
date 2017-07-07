@@ -1,32 +1,18 @@
 import { Component } from '@angular/core';
 
-import { Header, Footer } from './tu-components/index';
-import { NavBar } from './navbar.component';
-
-import { UserService } from './users/shared/index';
-import { CommentsService } from './comments/shared/index';
-import { PostService } from './posts/shared/index';
-
 @Component({
 
-	directives: [Header, Footer, NavBar],
+	directives: [],
 	selector: 'tu-app',
 	template: `
-	<tu-header></tu-header>
-	<tu-nav-bar></tu-nav-bar>
-	<div class="container">
-		<router-outlet></router-outlet>
-	</div>
-	<tu-footer></tu-footer>
+	<h1>Barony</h1>
+	<router-outlet></router-outlet>
 	`
 })
 
 export class AppComponent {
 
 	// initialize our services when the app has been started
-	constructor(
-		userService: UserService,
-		postService: PostService,
-		commentsService: CommentsService) {}
+	constructor() {}
 
 }

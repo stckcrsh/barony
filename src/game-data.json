@@ -1,0 +1,62 @@
+{
+	"spaceTypeEntities": {
+		"0": {
+			"name": "Mountain",
+			"score": 2,
+			"endGameScore": 0,
+			"canPlaceCity": true,
+			"canMove": true,
+			"canStackUnits": false
+		},
+		"1": {
+			"name": "Forest",
+			"score": 3,
+			"endGameScore": 1,
+			"canPlaceCity": false,
+			"canMove": true,
+			"canStackUnits": true
+		},
+		"2": {
+			"name": "Plains",
+			"score": 4,
+			"endGameScore": 2,
+			"canPlaceCity": true,
+			"canMove": true,
+			"canStackUnits": true
+		},
+		"3": {
+			"name": "Farmland",
+			"score": 5,
+			"endGameScore": 3,
+			"canPlaceCity": false,
+			"canMove": true,
+			"canStackUnits": true
+		},
+		"4": {
+			"name": "Water",
+			"score": null,
+			"endGameScore": null,
+			"canPlaceCity": false,
+			"canMove": false,
+			"canStackUnits": false
+		}
+	},
+	"spaceTypes": ["0", "1", "2", "3", "4"],
+	"players": {
+		"cities": 5,
+		"knights": 7,
+		"villages": 14,
+		"strongholds": 2
+	},
+	"buildingEntities": {
+		"0": {
+			"name": "Village",
+		}
+	},
+	"buildings": ["0", "1", "2"],
+	"tiles": [{
+		"top": 0,
+		"left": 0,
+		"right": 0
+	}]
+}
